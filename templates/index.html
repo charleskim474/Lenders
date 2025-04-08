@@ -1,20 +1,24 @@
 <marquee><h1 style="color:red;">Welcome to lenders</h1></marquee>
 
 {% for l in lender %}
+***********************,,,,
 <h1><l>
-		<li>{{l.id}}</li>
-		<li>{{l.co_name}}</li>
-		<li>{{l.tel}}</li>
-		<li>{{l.email}}</li>
-		<li>{{l.username}}</li>
-		<li>{{l.password}}</li>
-		<li>{{l.location}}</li>
-		<li>{{l.suscription}}</li>
-		<li>{{l.expiry}}</li>
+		<li>ID : {{l.id}}</li>
+		<li>NAME : {{l.co_name}}</li>
+		<li>TEL : {{l.tel}}</li>
+		<li>MAIL : {{l.email}}</li>
+		<li>UNAME : {{l.username}}</li>
+		<li>PW : {{l.password}}</li>
+		<li>LOC : {{l.location}}</li>
+		<li>SUBS : {{l.subscription}}</li>
+			<li>STATUS : {{l.subscription_status}}</li>
+		<li>EXP: {{l.expiry}}</li>
 		
 </l>
 </h1>
+**********************************
 {%endfor%}
+
 
 <form action="create_account/" method="POST">
 		{% csrf_token %}

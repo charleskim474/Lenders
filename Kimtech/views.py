@@ -19,7 +19,7 @@ def create_account(request):
         location = request.POST['location']
         #subscription logic here
         #Expiry check & update here
-        Lender.objects.create(co_name = co_name, tel = tel, email = email, username =username, password = password, location = location, expiry = '2025-04-03')
+        Lender.objects.create(co_name = co_name, tel = tel, email = email, username =username, password = password, location = location, subscription = True, subscription_status = 'Trial')#Expiry is added automatically
         print('\n\n=====>>SAVED SUCCESSFULLY\n\n')
         
       #  lender = Lender.objects.all()
