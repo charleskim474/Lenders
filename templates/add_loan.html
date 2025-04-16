@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+		<title>Hello, World!</title>
+</head>
+<body>
+		<h1>
+				Hello, World!
+				
+				<form action="{% url 'app:add_loan' %}" method="POST">
+						{%csrf_token%}
+							<input type="text" name = "name" placeholder="Full name"><br>
+				</form>
+				td>{{l.lender_id.id}}</td>
+										<td>{{l.borrower_id.id}}</td>
+										<td>{{l.loan_Date}}</td>
+										<td>{{l.loan_amount}}</td>
+										<td>{{l.interest_rate}}</td>
+										<td>{{l.processing_fee}}</td>
+										<td>{{l.total_amm}}</td>
+										<td>{{l.duration}}</td>
+				
+		</h1>
+</body>
+</html>

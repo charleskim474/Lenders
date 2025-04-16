@@ -1,0 +1,39 @@
+<marquee><h1 style="color:red;">Welcome to lenders</h1></marquee>
+
+{% for l in lender %}
+***********************,,,,
+<h1><l>
+		<li>ID : {{l.id}}</li>
+		<li>NAME : {{l.co_name}}</li>
+		<li>TEL : {{l.tel}}</li>
+		<li>MAIL : {{l.email}}</li>
+		<li>UNAME : {{l.username}}</li>
+		<li>PW : {{l.password}}</li>
+		<li>LOC : {{l.location}}</li>
+		<li>SUBS : {{l.subscription}}</li>
+			<li>STATUS : {{l.subscription_status}}</li>
+		<li>EXP: {{l.expiry}}</li>
+		{% if l.time_left == -1 %}
+			<li  style="color:red">Time L: Expired</li>
+		{% else %}
+		<li style="color:green">Time L: {{l.time_left}} days</li>
+		{%endif%}
+</l>
+</h1>
+**********************************
+{%endfor%}
+
+
+<form action="{% url 'kim:create_account' %}" method="POST">
+		{% csrf_token %}
+		<input type="text" name="co_name" placeholder="co name"> <br />
+		<input type="text" name="tel" placeholder="co tel"><br />
+		<input type="text" name="email" placeholder="co email"><br />
+		
+		{% if ex %}
+		<span style="color:red;">Username {{uname}} already taken</span><br>{%endif%}
+		<input type="text" name="uname" placeholder="co Uname"><br />
+		<input type="password" name="pw" placeholder="co pw"><br />
+		<input type="text" name="location" placeholder="co Location"><br />
+		<input type="submit">
+</form>

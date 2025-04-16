@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+		<title>Hello, World!</title>
+				<style>
+		
+		.table th{
+  color: red;
+  background-color: palegreen;
+  font-size: 20px;
+  align-items: center;
+}
+
+.table td{
+  background-color: lightgray;
+}
+
+		</style>
+</head>
+<body>
+		<h1>
+				Hello, World!
+				<h1>
+						
+						<table class="table">
+								
+										<tr>
+												<th>L_ID</th>
+												<th>B_ID</th>
+										  <th>Img</th>
+												<th>L Date</th>
+												<th>Amm</th>
+												<th>Rate</th>
+												<th>P_Fee</th>
+												<th>Total</th>
+												<th>duration</th>
+										  <th>Last date</th>
+								</tr>
+					
+				{% for l in loans %}
+			<tr>
+			  <td><img src="{{l.borrower_id.photo.url}}"  style="width: 100px; height: 100px; border-radius: 50px;"></td>
+										<td>{{l.lender_id.id}}</td>
+										<td>{{l.borrower_id.id}}</td>
+										<td>{{l.loan_Date}}</td>
+										<td>{{l.loan_amount}}</td>
+										<td>{{l.interest_rate}}</td>
+										<td>{{l.processing_fee}}</td>
+										<td>{{l.total_amm}}</td>
+										<td>{{l.duration}}</td>
+			  {% if l.last_date < today %}
+			  <td style="color:red;">{{l.last_date}}</td>
+			  {%else%}
+			  <td style="color:green;">{{l.last_date}}</td>
+			  {%endif%}
+			  
+			</tr>
+		
+				{%endfor%}
+					</table>
+				
+		</h1>
+</body>
+</html>

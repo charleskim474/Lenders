@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+		<title>Hello, World!</title>
+</head>
+<body>
+		
+		{%if error%}
+		<span style="color:red;">Error has occured. try again</span>
+		{%endif%}
+		<div>
+				<form action="{% url 'app:add_borrower' %}" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						<h1>Borrower details</h1>
+						<input type="text" name = "name" placeholder="Full name"><br>
+						<input type="text" name="tel" placeholder="Telephone"><br>
+						<input type="email" name="email" placeholder="email"><br>
+						<input type="text" name="location" placeholder="location"><br>
+						{% if NINerr %}
+						<span style="color: red">NIN already used on a loan in this company</span><br>
+						{%endif%}
+						<input type="text" name="NIN" placeholder="NIN"><br>
+						<input type="text" name="pin" placeholder="PIN"><br>
+						<input type="file" name="photo" placeholder="PHOTO"><br>
+						
+						<h1>Loan details</h1>
+						
+							<input type="text" name="loan_amount" placeholder="loan amount"><br>
+						
+							<input type="text" name="interest_rate" placeholder="interest %"><br>
+							<input type="text" name="processing_fee" placeholder="Processing fee"><br>
+							<input type="text" name="duration" placeholder="loan duration"><br>
+						
+						<h1>Aggreemet photo</h1>
+						<input type="file" name="aggreement"><br>
+						
+						<h1>Collateral info</h1>
+						<input type="text" name="asset_name" placeholder="Asset name"><br>
+						<input type="text" name="description" placeholder="description"><br>
+						<input type="file" name="asset_photo"><br>
+							<input type="file" name="proof"><br>
+						
+						<input type="submit" placeholder="SUBMIT"><br>
+				</form>
+		</div>
+		
+		
+		
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+		<title>Hello, World!</title>
+		<style>
+		
+		.table th{
+  color: red;
+  background-color: palegreen;
+  font-size: 20px;
+  align-items: center;
+}
+
+.table td{
+  background-color: lightgray;
+}
+
+		</style>
+</head>
+<body>
+		<h1>
+				Hello, World!
+				{% if repayments %}
+				<table class="table">
+				  <tr>
+						<th>Photo</th>
+						<th>Date</th>
+						<th>B_ID</th>
+						<th>Ln_id</th>
+						<th>Name</th>
+						<th>Paid</th>
+						<th>% pay</th>
+				    <th>Time left</th>
+						<th>Bal</th>
+				</tr>
+				{% for r in repayments %}
+				  <tr>
+				<td><img src="{{r.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"></td>
+				<td>{{r.date}}</td>
+				<td>{{r.borrower_id.id}}</td>
+				<td>{{r.loan_id.id}}</td>
+				<td>{{r.borrower_id.name}}</td>
+				<td>{{r.paid}}</td>
+				<td>{{r.percentage_paid}} %</td>
+				    
+				    {% if r.time_left < 0 %}
+				    <td style="color:red;">Loan Expired!</td> 
+				    {%elif r.time_left == 0 %}
+				    <td>Ends Today!</td>
+				    {%else%}
+				<td>{{r.time_left}}</td>
+				    {%endif%}
+				<td>{{r.bal}}</td>
+				  </tr>
+				{%endfor%}
+				</table>
+				{%else%}
+				<h1>No record found</h1>
+				{%endif%}
+				
+		  <form action="{% url 'app:repayments' %}" method="POST">
+		    {% csrf_token %}
+		    
+		    <select name = 'id'>
+		      NAME:  
+		      {% for l in loans %}
+		    <option value="{{l.borrower_id.id}}"><img src="{{l.borrower_id.photo.url}}" style="width: 50px; height: 50px; border-radius: 50px;">{{l.borrower_id.name}}</option>
+		      {%endfor%}
+		    </select>
+		    
+		    <input type="text" name="paid" placeholder="Paid amount">
+		    <input type="submit">
+		    
+		  </form>
+				
+		</h1>
+</body>
+</html>

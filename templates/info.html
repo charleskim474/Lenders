@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+		<title>Hello, World!</title>
+			<style>
+		
+		.table th{
+  color: red;
+  background-color: palegreen;
+  font-size: 20px;
+  align-items: center;
+}
+
+.table td{
+  background-color: lightgray;
+}
+
+		</style>
+		
+</head>
+<body>
+		<h1>
+				Hello, World!
+				*********************************<br>
+		  {% if data %}
+				<h1 style="color:blue;"> Loan Details in {{data.lender_id.co_name}}</h1>
+
+				<h3>
+						
+						Img        : <img src="{{data.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"><br>
+						ID         : {{data.borrower_id.id}}<br>
+						Name       : {{data.borrower_id.name}}<br>
+						Lender     : {{data.lender_id.co_name}}<br>
+						Ln ID      : {{data.loan_id.id}}<br>
+						Ln Date    : {{data.loan_id.loan_Date}}<br>
+						Ln Amm     : {{data.loan_id.loan_amount}}<br>
+						Rate       : {{data.loan_id.interest_rate}} %<br>
+						Pr Fee     : {{data.loan_id.processing_fee}}<br>
+						Total      : {{data.loan_id.total_amm}}<br>
+						Duration   : {{data.loan_id.duration}}<br>
+						Last date  : {{data.loan_id.last_date}}<br>
+						
+				</h3>
+							*********************************<br>
+				<h1  style="color:blue;">Agreements & Collateral info</h1>
+		
+				
+				<h3>
+				Agreement : <img src="{{data.aggr_id.aggreement.url}}" style="width: 100px; height: 100px;"><br>
+						Asset name : {{data.asset_name}}<br>
+						Descrioption: {{data.description}}<br>
+						Asset    : <img src="{{data.asset_photo.url}}" style="width: 100px; height: 100px;"><br>
+										Proof of owner : <img src="{{data.proof.url}}" style="width: 100px; height: 100px;"><br>
+				</h3>
+		  {%else%}
+		  <h1>Missing data</h1>
+		  {%endif%}
+							*********************************<br>
+				<h1 style="color:blue;">Repayments</h1>
+				
+				{% if info %}
+					<table class="table">
+				  <tr>
+						<th>Date</th>
+						<th>Paid</th>
+						<th>% pay</th>
+				 <th>Time left</th>
+						<th>Bal</th>
+				</tr>
+				{% for i in info %}
+				  <tr>
+				<td>{{i.date}}</td>
+				<td>{{i.paid}}</td>
+				<td>{{i.percentage_paid}} %</td>
+				    
+				    {% if i.time_left < 0 %}
+				    <td style="color:red;">Loan Expired!</td> 
+				    {%elif i.time_left == 0 %}
+				    <td>Ends Today!</td>
+				    {%else%}
+				<td>{{i.time_left}}</td>
+				    {%endif%}
+				<td>{{i.bal}}</td>
+				  </tr>
+				{%endfor%}
+				</table>
+				{%else%}
+				<h1>No record found</h1>
+				{%endif%}
+				
+		</h1>
+</body>
+</html>

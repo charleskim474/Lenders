@@ -1,32 +1,27 @@
-<marquee><h1 style="color:red;">Welcome to lenders</h1></marquee>
+<!DOCTYPE html>
 
-{% for l in lender %}
-***********************,,,,
-<h1><l>
-		<li>ID : {{l.id}}</li>
-		<li>NAME : {{l.co_name}}</li>
-		<li>TEL : {{l.tel}}</li>
-		<li>MAIL : {{l.email}}</li>
-		<li>UNAME : {{l.username}}</li>
-		<li>PW : {{l.password}}</li>
-		<li>LOC : {{l.location}}</li>
-		<li>SUBS : {{l.subscription}}</li>
-			<li>STATUS : {{l.subscription_status}}</li>
-		<li>EXP: {{l.expiry}}</li>
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+		<title>Hello, World!</title>
+</head>
+<body>
+		<h1>
+				Hello, login here
+				
+				<form action="{% url 'app:login' %}" method="POST">
+						{%csrf_token%}
+						{% if msg %}
+						<span style="color: red;">{{msg}}</span><br>
+						{%endif%}
+						<input type="text" name="uname" placeholder="username" style="height: 50;  width: 400;"><br>
+						<input type="password" name="pw" placeholder="password"><br>
+						<input type="submit"><br>
+				</form>
+		</h1>
 		
-</l>
-</h1>
-**********************************
-{%endfor%}
-
-
-<form action="create_account/" method="POST">
-		{% csrf_token %}
-		<input type="text" name="co_name" placeholder="co name"> <br />
-		<input type="text" name="tel" placeholder="co tel"><br />
-		<input type="text" name="email" placeholder="co email"><br />
-		<input type="text" name="uname" placeholder="co Uname"><br />
-		<input type="password" name="pw" placeholder="co pw"><br />
-		<input type="text" name="location" placeholder="co Location"><br />
-		<input type="submit">
-</form>
+		{%for d in d%}
+		{{d.id}} *** {{d.NIN}} *** {{d.pin}} *** {{d.lender_id.co_name}} ** {{d.lender_id.id}}<br>
+		{%endfor%}
+</body>
+</html>

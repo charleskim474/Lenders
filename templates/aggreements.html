@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width = device-width, initial-scale = 1.0">
+		<title>Hello, World!</title>
+</head>
+<body>
+		<h1>
+				Hello, World!
+				
+				{% if info %}
+				{% for i in info %}
+				<h2>
+						**************************<br>
+						IMG  : <img src="{{i.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"><br>
+						Name : {{i.borrower_id.name}}<br>
+						Ln ID: {{i.loan_id.id}} <br>
+						B  ID: {{i.borrower_id.id}}<br>
+						Ag ID: {{i.aggr_id.id}}<br>
+						Asset: {{i.asset_name}}<br>
+						Desc : {{i.description}}<br>
+						Proof: <img src="{{i.proof.url}}" style="width: 100px; height: 100px;"><br>
+						As_Ph : <img src="{{i.asset_photo.url}}" style="width: 100px; height: 100px;"><br>
+						************************************<br>
+								
+								{%endfor%}
+				</h2>
+				{%else%}
+				<h1>No aggreeements found for this company</h1>
+				{%endif%}
+		</h1>
+</body>
+</html>
