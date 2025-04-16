@@ -50,7 +50,6 @@ class Aggreements(models.Model):
     lender_id = models.ForeignKey(Lender, on_delete = models.CASCADE, null = True)
     borrower_id = models.ForeignKey(Borrower, on_delete = models.CASCADE, null = True)
     loan_id = models.ForeignKey(Loans, on_delete = models.CASCADE, null = True)
-    loan_date = models.DateField(auto_now_add = True)
     aggreement = models.ImageField(upload_to = 'images/', null = True)
     
     

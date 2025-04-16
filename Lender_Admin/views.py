@@ -41,6 +41,7 @@ def logout(request):
 
 
 #REGISTER BORROWERS & all loan info
+
 def add_borrower(request):
     exp_check()
     access = request.session.get('uname', 'deny')
@@ -51,62 +52,104 @@ def add_borrower(request):
                 lender = Lender.objects.get(username = access)
                 
             #ADDING BORROWER
-                """name = request.POST['name']
+            
+                name = request.POST['name']
                 tel = request.POST['tel']
                 email = request.POST['email']
                 location = request.POST['location']
                 NIN = request.POST['NIN']
+                try:
+                    NINcheck = Borrower.objects.get(lender_id = lender, NIN = NIN)
+                    if NINcheck.NIN == NIN:
+                        print('===>>Identical NIN found')
+                        return render(request, 'new_borrower.html', {'NINerr':'NIN already used In this Company!'})
+                except Borrower.DoesNotExist:
+                    print('===>>No Identical NIN found')
                 pin = request.POST['pin']
-                photo = request.FILE['photo']
+                photo = request.FILES['photo']
                 Borrower.objects.create(
-                    lender_id = lender
-                    name = name
-                    tel = tel
-                    email = email
-                    location = location
-                    NIN = NIN
-                    pin = pin
+                    lender_id = lender,
+                    name = name,
+                    tel = tel,
+                    email = email,
+                    location = location,
+                    NIN = NIN,
+                    pin = pin,
                     photo = photo
                 )
-                print('===>added borrower', name)
+                print('\n\n===>added borrower\n\n', name)
+                borrower = Borrower.objects.get(lender_id = lender, NIN = NIN)
+                
                 #ADD A  LOAN FOR THE BORROWER
-                lender_id
-                brorrower_id
-                loan_amount = request.POST[
-                interest_rate = request.POST[
-                processing_fee = request.POST[
-                total_amm
-                duration = request.POST[
-                last_date
-                balance
                 
-                #Aggreements
-                lender_id 
-                borrower_id
-                loan_id 
-                loan_date#AUTO
-                aggreement = request.FILE[
+                loan_amount = request.POST['loan_amount']
+                interest_rate = request.POST['interest_rate']
+                processing_fee = request.POST['processing_fee']
+                duration = request.POST['duration']
+         ##########       
+                last_date = date.today() + timedelta(days = int(duration))
+                total_amm = int(loan_amount) + int(processing_fee) + ( (float(interest_rate)/100) * int(loan_amount))
+         ############       
+                Loans.objects.create(
+                    lender_id = lender,
+                    borrower_id = borrower,
+                    loan_amount = loan_amount,
+                    interest_rate = interest_rate,
+                    processing_fee = processing_fee,
+                    total_amm = total_amm,
+                    duration = duration,
+                    last_date = last_date,
+                    balance = total_amm
+                )
+                print('\n\n===>added loan for\n\n', name)
+                loan = Loans.objects.get(lender_id = lender, borrower_id = borrower)
                 
+         #ADDING AN Aggreement TO A LOAN
+         
+                aggreement = request.FILES['aggreement']
+         ############
+                Aggreements.objects.create(
+                    lender_id = lender,
+                    borrower_id = borrower,
+                    loan_id = loan,
+                    aggreement = aggreement
+                )
+                print('\n\n===>added agreement for\n\n', name)
+                aggreement = Aggreements.objects.get(lender_id = lender, borrower_id = borrower)
                 
-                #COLLATERAL INFO
-                lender_id 
-                borrower_id 
-                loan_id 
-                aggr_id 
-                asset_name = request.POST[
-                description = request.POST[
-                proof = request.FILE[
-                asset_photo = request.FILE["""
-                return HttpResponse('<h1>Under implementation wait!')
+         #ADDING COLLATERAL INFO
+                
+                asset_name = request.POST['asset_name']
+                description = request.POST['description']
+                proof = request.FILES['proof']
+                asset_photo = request.FILES['asset_photo']
+        #############        
+                Collateral.objects.create(
+                    lender_id = lender,
+                    borrower_id = borrower,
+                    loan_id = loan,
+                    aggr_id = aggreement,
+                    asset_name = asset_name,
+                    description = description,
+                    proof = proof,
+                    asset_photo = asset_photo
+                )
+                print('\n\n===>added Collateral info for\n\n', name)
+                return HttpResponse('<h1>Everything added Successfully</h1>')
+                #return redirect('app:dashboard')
             except Exception:
-                return HttpResponse('Error!')
-        return HttpResponse('<h1>Request Method isnt POSTUnder implementation wait!, but')
+                try:
+                    Borrower.objects.get(lender_id = lender, NIN = NIN).delete()
+                    print('\n\n===>Borrower info deleted \n\n', name)
+                except Borrower.DoesNotExist:
+                    print('\n\n===>error \n\n', name)
+                return HttpResponse('<h1>Error occured during form handling!</h1>')
+                #return ErrorPage
+        return render(request, 'new_borrower.html')
     return redirect('app:login')
 
-
-
-
 #VIEW BORROWERS (Lender based after login) WITH ALL LOANS
+
 def customers(request):
     exp_check()
     access = request.session.get('uname', 'deny')
