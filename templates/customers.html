@@ -21,8 +21,10 @@
 </head>
 <body>
 		<h1>
-				Hello, World!
+				Hello!
 		</h1>
+  
+  {% if loan %}
 		
 		<table class="table">
 				<tr>
@@ -62,6 +64,10 @@
 				</tr>
 		{%endfor%}
 		</table>
+  
+  {%else%}
+  <h1>No Customer(s) found</h1>
+  {%endif%}
 		
 </body>
 </html>

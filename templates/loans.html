@@ -24,6 +24,7 @@
 				Hello, World!
 				<h1>
 						
+				  {% if loans %}
 						<table class="table">
 								
 										<tr>
@@ -60,7 +61,9 @@
 		
 				{%endfor%}
 					</table>
-				
+						  {%else%}
+						  <h1>No Loan(s) found!</h1>
+						  {%endif%}
 		</h1>
 </body>
 </html>

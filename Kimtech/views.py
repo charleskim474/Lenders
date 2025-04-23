@@ -22,16 +22,18 @@ def lenders(request):
     
 #OPEN/ Create lender account
 def create_account(request):
-    exp_check()
+    
     if request.method == 'POST':
-        co_name = request.POST['co_name']
-        tel = request.POST['tel']
-        email = request.POST['email']
-        username = request.POST['uname']
-        password = request.POST['pw']
-        location = request.POST['location']
+        logo = request.FILES.get('logo')
+        co_name = request.POST.get('co_name')
+        tel = request.POST.get('tel')
+        email = request.POST.get('email')
+        username = request.POST.get('uname')
+        password = request.POST.get('pw')
+        location = request.POST.get('location')
         try:
             Lender.objects.create(
+                logo = logo,
                 co_name = co_name, 
                 tel = tel, email = email, 
                 username =username, 
@@ -40,8 +42,11 @@ def create_account(request):
                 subscription = True,
                 subscription_status = 'Trial'
              )#Expiry is added automatically
+            exp_check()
             print('\n\n=====>>SAVED lender SUCCESSFULLY\n\n')
-            return HttpResponse('<h1>Created</h1>')
+            lender = Lender.objects.get(username = username)
+            return render(request, 'dashboard.html', {'lender' : lender})
+            
         except IntegrityError as e:
             print('===>Exception : ', e)
             lender = Lender.objects.all()

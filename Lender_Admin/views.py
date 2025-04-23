@@ -6,12 +6,16 @@ from datetime import date, timedelta
 from Kimtech.logic import exp_check
 
 # Create your views here.
+
+
+
 #LOGIN FOR LENDER
+
 def login(request):
     exp_check()
     if request.method == 'POST':
-        uname = request.POST['uname']
-        pw = request.POST['pw']
+        uname = request.POST.get('uname')
+        pw = request.POST.get('pw')
         try:
             row = Lender.objects.get(username = uname)
         except Lender.DoesNotExist as e:
@@ -25,8 +29,7 @@ def login(request):
             if row.subscription == False:
                 return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
             else:
-                return redirect('app:add_borrower')
-            #return Dashbord
+                return render(request, 'dashboard.html', {'lender' : row})
         else:
             return render(request, 'index.html', {'msg':'Invalid Username or Password, please try again!'})
     return render(request, 'index.html')
@@ -53,11 +56,11 @@ def add_borrower(request):
                 
             #ADDING BORROWER
             
-                name = request.POST['name']
-                tel = request.POST['tel']
-                email = request.POST['email']
-                location = request.POST['location']
-                NIN = request.POST['NIN']
+                name = request.POST.get('name')
+                tel = request.POST.get('tel')
+                email = request.POST.get('email')
+                location = request.POST.get('location')
+                NIN = request.POST.get('NIN')
                 try:
                     NINcheck = Borrower.objects.get(lender_id = lender, NIN = NIN)
                     if NINcheck.NIN == NIN:
@@ -82,10 +85,10 @@ def add_borrower(request):
                 
                 #ADD A  LOAN FOR THE BORROWER
                 
-                loan_amount = request.POST['loan_amount']
-                interest_rate = request.POST['interest_rate']
-                processing_fee = request.POST['processing_fee']
-                duration = request.POST['duration']
+                loan_amount = request.POST.get('loan_amount')
+                interest_rate = request.POST.get('interest_rate')
+                processing_fee = request.POST.get('processing_fee')
+                duration = request.POST.get('duration')
          ##########       
                 last_date = date.today() + timedelta(days = int(duration))
                 total_amm = int(loan_amount) + int(processing_fee) + ( (float(interest_rate)/100) * int(loan_amount))
@@ -106,7 +109,7 @@ def add_borrower(request):
                 
          #ADDING AN Aggreement TO A LOAN
          
-                aggreement = request.FILES['aggreement']
+                aggreement = request.FILES.get('aggreement')
          ############
                 Aggreements.objects.create(
                     lender_id = lender,
@@ -119,10 +122,10 @@ def add_borrower(request):
                 
          #ADDING COLLATERAL INFO
                 
-                asset_name = request.POST['asset_name']
-                description = request.POST['description']
-                proof = request.FILES['proof']
-                asset_photo = request.FILES['asset_photo']
+                asset_name = request.POST.get('asset_name')
+                description = request.POST.get('description')
+                proof = request.FILES.get('proof')
+                asset_photo = request.FILES.get('asset_photo')
         #############        
                 Collateral.objects.create(
                     lender_id = lender,
@@ -194,8 +197,8 @@ def repayments(request):
         else:
             if request.method == 'POST':
             #select name from drop down list
-                borrower_id = request.POST['id']
-                paid = request.POST['paid']
+                borrower_id = request.POST.get('id')
+                paid = request.POST.get('paid')
                 borrower = Borrower.objects.get(id = borrower_id, lender_id = lender)
                 loan = Loans.objects.get(lender_id = lender, borrower_id = borrower)
                 loan.total_amm
@@ -251,6 +254,7 @@ def status(request):
                 except Exception:
                     print('===>No collateral info found')
                     return HttpResponse('<h1>Missing Information In The System, Please Contact your Lender For Assistance! <br />Thank you.</h1>')
+                    #return error page
             return render(request, 'index.html', {'msg':'Invalid Username or Password, please try again!'})
         except Borrower.DoesNotExist:
             return render(request, 'index.html', {'msg':'Invalid Username or Password, please try again!'})

@@ -1,27 +1,45 @@
-<!DOCTYPE html>
+{% extends "base1.html" %}
+{% block title %} Login {%endblock%}
+{% block content %}
 
-<html>
-<head>
-		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<title>Hello, World!</title>
-</head>
-<body>
-		<h1>
-				Hello, login here
+
+<div class="container">
+<img src="static/images/logo.png">
+		
+<div class="greet" id="greet">Hi there!
+		Welcome to Kimtech Records
+</div>
 				
+
+<div class="login">
 				<form action="{% url 'app:login' %}" method="POST">
 						{%csrf_token%}
 						{% if msg %}
-						<span style="color: red;">{{msg}}</span><br>
+						<span style="color: red; font-size: 10px; background-color: white;">{{msg}}</span><br>
 						{%endif%}
-						<input type="text" name="uname" placeholder="username" style="height: 50;  width: 400;"><br>
-						<input type="password" name="pw" placeholder="password"><br>
-						<input type="submit"><br>
+						<div class="fields">
+								Username: <br />
+						
+						<input type="text" name="uname" placeholder="username" id="input" required><br>
+						
+						Password: <br />
+						
+						<input type="password" name="pw" id="inputPw" placeholder="password" required>
+						</div>
+						
+						<span>				<button type="button" onclick="show()" class="toggle">Show</button></span> <br>
+						
+						<button type="submit" class="submit">Login</button>
+					
 				</form>
-		</h1>
+</div>
+
+<p class="create">
+		Are you a Money Lender but don't have an account yet? <br />
+		<a href="create_account">Click here to create a free account and enjoy free 30 days!</a>
+</p>
 		
-		{%for d in d%}
-		{{d.id}} *** {{d.NIN}} *** {{d.pin}} *** {{d.lender_id.co_name}} ** {{d.lender_id.id}}<br>
-		{%endfor%}
-</body>
-</html>
+</div>
+
+<script src="/static/js/script.js"></script>
+{%endblock%}

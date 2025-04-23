@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Menu</title>
+    <link rel="stylesheet" href="static/css/styles2.css">
+</head>
+
+<body>
+    
+    
+    
+    <img src="{{ lender.logo.url }}" class="logo">
+    
+    <button id="menu-button">Menu</button>
+    
+    <span class="name">{{lender.co_name}}</span>
+    
+    <aside id="menu" class="menu hidden">
+        <a href="{% url 'app:add_borrower' %}">Add Loan</a>
+        <button class="menu-btn">Add Loan</button>
+        <button class="menu-btn">View Loans</button>
+        <button class="menu-btn">View Customer Info</button>
+        <button class="menu-btn">Agreements & Collateral Info</button>
+        <button class="menu-btn">Repayments</button>
+        <button class="menu-btn">Company Profile</button>
+        <button class="menu-btn">About Us</button>
+        <button class="menu-btn">Help</button>
+        <button class="menu-btn">Statistics</button>
+        <button class="menu-btn">Subscription Status</button>
+    </aside>
+    
+    <div class="summary">
+        <h2>
+            Subscription Status : {{lender.subscription}}.
+        </h2>
+        <h2>
+            Days left : {{lender.time_left}}
+        </h2>
+        <h2>
+            Expiry Date : {{lender.expiry}}
+        </h2>
+        <button type="button" onclick = "subscribe()">Add More Days</button>
+    </div>
+    
+    <div class="notifications">
+        
+        <h1>Notifications</h1>
+        
+        {% if notifications %}
+        
+        {% for notif in notifications %}
+        <ul>
+            <li>{{notif}}</li></li>
+        </ul>
+    {% endfor %}
+    {% else %}
+    <p>No notifications found!</p>
+    {% endif %}
+    </div>
+    
+
+    <script src="static/js/script2.js"></script>
+</body>
+</html>

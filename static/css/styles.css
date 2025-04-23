@@ -1,0 +1,93 @@
+body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    font-style: italic;
+    color: navy;
+    background: linear-gradient(to right, gray, pink, white);
+    padding: 10px;
+    margin: 10px;
+}
+
+/*  LOGIN STYLES */
+
+img{
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+}
+
+a{
+  text-decoration: none;
+  cursor: pointer;
+  color: blue;
+}
+a:hover{
+  color: red;
+}
+a:visited{
+  color: red;
+}
+
+/* CREATE ACCOUNT */
+.icon{
+  left: 0%;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+}
+
+.login{
+    padding: 30px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+   /* background-color: #007bff;
+    color: white; */
+    background: linear-gradient(to right, blue, white, purple);
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}

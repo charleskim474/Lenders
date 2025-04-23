@@ -6,6 +6,7 @@ from datetime import date, timedelta
 #Lenders' information
 
 class Lender(models.Model):
+    logo = models.ImageField(upload_to = 'images/', default = '/static/images/logo-placeholder.png')
     co_name = models.CharField(max_length = 100)
     tel = models.CharField(max_length = 13)
     email = models.EmailField()
@@ -28,7 +29,7 @@ class Borrower(models.Model):
     location = models.CharField(max_length = 100)
     NIN = models.CharField(max_length = 20)
     pin = models.CharField(max_length = 10)
-    photo = models.ImageField(upload_to = 'images/')
+    photo = models.ImageField(upload_to = 'images/', default = '/static/images/icon.png')
     
 #Loans information
 
