@@ -1,5 +1,0 @@
-django
-mysqlclient
-pillow
-django-environ
-django-storages
