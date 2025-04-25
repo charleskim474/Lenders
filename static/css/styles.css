@@ -6,7 +6,6 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 1rem;
     font-weight: bold;
-    font-style: italic;
     color: navy;
     background: linear-gradient(to right, gray, pink, white);
     padding: 10px;
@@ -30,7 +29,7 @@ a:hover{
   color: red;
 }
 a:visited{
-  color: red;
+  color: green;
 }
 
 /* CREATE ACCOUNT */
@@ -77,8 +76,6 @@ input {
 
 button {
     padding: 10px;
-   /* background-color: #007bff;
-    color: white; */
     background: linear-gradient(to right, blue, white, purple);
     font-size: 20px;
     font-weight: bold;
@@ -90,4 +87,9 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.toggle{
+    background: none;
+    font-size: 15px;
 }

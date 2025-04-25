@@ -3,19 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Menu</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="static/css/styles2.css">
 </head>
 
 <body>
-    
-    
-    
-    <img src="{{ lender.logo.url }}" class="logo">
-    
-    <button id="menu-button">Menu</button>
-    
-    <span class="name">{{lender.co_name}}</span>
+
     
     <aside id="menu" class="menu hidden">
         <a href="{% url 'app:add_borrower' %}">Add Loan</a>
@@ -31,35 +24,65 @@
         <button class="menu-btn">Subscription Status</button>
     </aside>
     
-    <div class="summary">
-        <h2>
-            Subscription Status : {{lender.subscription}}.
-        </h2>
-        <h2>
-            Days left : {{lender.time_left}}
-        </h2>
-        <h2>
-            Expiry Date : {{lender.expiry}}
-        </h2>
-        <button type="button" onclick = "subscribe()">Add More Days</button>
+    <!-- REAL LAYOUT -->    
+    
+    
+    <div class="logoDiv">
+        
+        <img src="{{ lender.logo.url }}" class="logo">
+        
+    </div>
+    <div class="nameDiv">
+        
+        <span class="name">{{lender.co_name}}</span>
     </div>
     
-    <div class="notifications">
+    <div class="menuDiv">
+        <button id="menu-button"> <img src="/static/images/menu-icon.png" class="menu-icon"> </button>
         
-        <h1>Notifications</h1>
+    </div>
+    
+    <div class="summaryDiv">
         
+        
+            Subscription Status : {{lender.subscription}}.
+        
+        <br />
+        
+            Days left : {{lender.time_left}}
+       
+        <br />
+        
+            Expiry Date : {{lender.expiry}}
+       <br />
+        <div class="addButton">
+            <button class="add">Add More Days</button>
+        </div>
+        
+    </div>
+    
+    <div class="notifDiv">
+        <br />
+        <h3>Notifications</h3>
+        <hr />
         {% if notifications %}
         
         {% for notif in notifications %}
+        
         <ul>
             <li>{{notif}}</li></li>
         </ul>
-    {% endfor %}
-    {% else %}
-    <p>No notifications found!</p>
-    {% endif %}
-    </div>
     
+       {% endfor %}
+       {% else %}
+      <h5>No notifications found!</h5>
+  						    {% endif %}
+    
+    </div>
+
+    <div class="short">
+      ---  Shortcuts here ---
+    </div>
 
     <script src="static/js/script2.js"></script>
 </body>
