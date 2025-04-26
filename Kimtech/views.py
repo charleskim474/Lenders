@@ -10,6 +10,7 @@ from .logic import exp_check
 
 
 def index(request):
+    print('\n\n======>>>>>Someone have accessed index page!\n\n')
     #Login logic here.
     return render(request, 'index.html')
 
