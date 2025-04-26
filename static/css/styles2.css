@@ -1,4 +1,5 @@
 body {
+    background: linear-gradient(to left,  red, yellow, black);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
