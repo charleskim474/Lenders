@@ -63,7 +63,6 @@ button:hover {
     }
     100%{
         transform: rotate(360deg);
-        transform: to-right(300px);
     }
 }
 
