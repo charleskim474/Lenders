@@ -11,5 +11,6 @@ urlpatterns = [
     path('repayments', views.repayments, name = 'repayments'),
     path('logout', views.logout, name = 'logout'),
     path('aggreements', views.aggreements, name = 'aggreements'),
-    path('status', views.status, name = 'status')
+    path('status', views.status, name = 'status'),
+    path('home', views.home, name = 'home')
 ]

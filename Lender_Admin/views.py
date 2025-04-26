@@ -25,14 +25,22 @@ def login(request):
         if row and row.password == pw:
             request.session['uname'] = uname
             print(f"===Added : {request.session.get('uname', 'Sessiom Not Added')} to session")
-            
             if row.subscription == False:
                 return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
             else:
-                return render(request, 'dashboard.html', {'lender' : row})
+                return redirect('app:home')
         else:
             return render(request, 'index.html', {'msg':'Invalid Username or Password, please try again!'})
     return render(request, 'index.html')
+
+
+def home(request):
+    access = request.session.get('uname', 'deny')
+    if access != 'deny':
+        row = Lender.objects.get(username = access)
+        return render(request, 'dashboard.html', {'lender' : row})
+    else:
+        return redirect('app:login')
 
 
 #Logout FOR ALL
