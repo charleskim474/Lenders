@@ -7,6 +7,8 @@ document.getElementById("menu-button").addEventListener("click", function () {
 });
 
 function getDays(){
-    alert("hello");
+    let days = document.getElementById("days");
+    data = days.value;
+    days.textContent = "hey";
 }
 getDays();
