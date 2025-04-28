@@ -3,50 +3,104 @@
 <html>
 <head>
 		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<title>Hello, World!</title>
+		<title>Add Loan</title>
+		<link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
 		
-		<h1>
+		<h1 style="font-size: 50px;">Register New Loan</h1><br />
 		
-		{%if error%}
-		<span style="color:red;">Error has occured. try again</span>
+			{%if msg%}
+		<h3 class="msg">{{msg}}</h3>
 		{%endif%}
-		<div>
+				
+				<!--		<div class="container"> -->
+				
 				<form action="{% url 'app:add_borrower' %}" method="POST" enctype="multipart/form-data">
 						{% csrf_token %}
-						<h1>Borrower details</h1>
-						<input type="text" name = "name" placeholder="Full name"><br>
-						<input type="text" name="tel" placeholder="Telephone"><br>
-						<input type="email" name="email" placeholder="email"><br>
-						<input type="text" name="location" placeholder="location"><br>
-						{% if NINerr %}
-						<span style="color: red">NIN already used on a loan in this company</span><br>
-						{%endif%}
-						<input type="text" name="NIN" placeholder="NIN"><br>
-						<input type="text" name="pin" placeholder="PIN"><br>
+						
+				<div class="container">
+					<h1>Borrower details</h1>
+						
+						<label>Photo</label><br />
 						<input type="file" name="photo" placeholder="PHOTO"><br>
+					
+						<label>Full Name</label><br />
+						<input type="text" name = "name" placeholder="Full name"><br>
+						
+						<label>Phone Number:</label><br />
+						<input type="text" name="tel" placeholder="Telephone"><br>
+						
+							<label>Email</label><br />
+						<input type="email" name="email" placeholder="email"><br>
+						
+							<label>Place of Residence</label><br />
+						<input type="text" name="location" placeholder="location"><br>
+						
+						
+							<label>NIN</label><br />
+						{% if NINerr %}
+						
+						<span style="color: red">NIN already used on a loan in this company</span><br>
+						
+						{%endif%}
+						
+						<input type="text" name="NIN" placeholder="NIN"><br>
+						
+							<label>Password</label><br />
+						<input type="text" name="pin" placeholder="PIN"><br>
+						
+				</div>
+						
+						<div class="container">
 						
 						<h1>Loan details</h1>
 						
+								<label>Applied Amount</label><br />
 							<input type="text" name="loan_amount" placeholder="loan amount"><br>
 						
-							<input type="text" name="interest_rate" placeholder="interest %"><br>
-							<input type="text" name="processing_fee" placeholder="Processing fee"><br>
+								<label>Interest (%)</label><br />
+							<input type="text" name="interest_rate" placeholder="interest in %"><br>
+								
+								<label>Loan Processing Fee</label><br />
+							<input type="text" name="processing_fee" placeholder="Loan Processing fee"><br>
+								
+								<label>Loan Period (days)</label><br />
 							<input type="text" name="duration" placeholder="loan duration"><br>
+								
+						</div>
 						
-						<h1>Aggreemet photo</h1>
+						<div class="container">
+								
+								<h1>Aggreemet photo</h1>
+								
+								<label>Agreement Photo</label><br />
 						<input type="file" name="aggreement"><br>
+								
+						</div>
 						
-						<h1>Collateral info</h1>
+					<div class="container">
+								
+								<h1>Collateral info</h1>
+								
+								<label>Asset Name</label><br />
 						<input type="text" name="asset_name" placeholder="Asset name"><br>
-						<input type="text" name="description" placeholder="description"><br>
+								
+								<label>Asset description</label><br />
+						<input type="text" name="description" placeholder="describe the conditions of the asset"><br>
+								
+								<label>Asset Photo</label><br />
 						<input type="file" name="asset_photo"><br>
+								
+								<label>Owner's Proof Photo</label><br />
 							<input type="file" name="proof"><br>
 						
-						<input type="submit" placeholder="SUBMIT"><br>
+						</div>
+						
+						<button type="submit" class="submit">Save Loan</button><br />
+						
 				</form>
-		</div>
+				<!--</div>-->
 		
 		
 		

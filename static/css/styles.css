@@ -7,7 +7,7 @@ body {
     font-size: 1rem;
     font-weight: bold;
     color: navy;
-    background: linear-gradient(to right, gray, pink, white);
+    background: linear-gradient(to right, lightgray, pink, whitesmoke);
     padding: 10px;
     margin: 10px;
 }
@@ -43,10 +43,11 @@ a:visited{
 .container {
     background: white;
     padding: 20px;
+    margin: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 1);
+    /*max-width: 50vw;*/
+    width: 70vw;
 }
 
 .login{
@@ -60,18 +61,26 @@ a:visited{
 
 form {
     display: flex;
+    margin: 10%;
     flex-direction: column;
 }
 
 label {
+    color: black;
     font-weight: bold;
-    margin-top: 10px;
+    margin: 10%;
+    margin-top: 10%;
 }
 
 input {
+    width: 80%;
+    height: 40px;
+    font-size: 100%;
+    margin-top: 10px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    border-color: blue;
 }
 
 button {
@@ -92,4 +101,39 @@ button:hover {
 .toggle{
     background: none;
     font-size: 15px;
+}
+
+.submit {
+    width: 30%;
+    height: 80px;
+    padding: 10px;
+    background: linear-gradient(to bottom, blue, purple);
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.msg {
+    color: red;
+    width: 70vw;
+    font-size: 30px;
+    background-color: black;
+    border-radius: 30px;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+		.table th{
+  color: red;
+  background-color: palegreen;
+  font-size: 20px;
+  align-items: center;
+}
+
+.table td{
+  background-color: lightgray;
 }

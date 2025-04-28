@@ -26,4 +26,3 @@ function show(){
         pw.type = "password";
     }
 }
-

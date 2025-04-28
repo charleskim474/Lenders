@@ -146,7 +146,7 @@ def add_borrower(request):
                     asset_photo = asset_photo
                 )
                 print('\n\n===>added Collateral info for\n\n', name)
-                return HttpResponse('<h1>Everything added Successfully</h1>')
+                return redirect('app:loans')
                 #return redirect('app:dashboard')
             except Exception:
                 try:
@@ -154,7 +154,7 @@ def add_borrower(request):
                     print('\n\n===>Borrower info deleted \n\n', name)
                 except Borrower.DoesNotExist:
                     print('\n\n===>error \n\n', name)
-                return HttpResponse('<h1>Error occured during form handling!</h1>')
+                return render(request, 'new_borrower.html', {'msg': 'Error occured during form handling!, check for errors & save again. '})
                 #return ErrorPage
         return render(request, 'new_borrower.html')
     return redirect('app:login')
@@ -172,7 +172,9 @@ def customers(request):
             lender_id = lender.id
             loan = Loans.objects.filter(lender_id = lender_id)
             print('===>', access)#....
-            return render(request, 'customers.html', {'loan':loan})
+            today = date.today()
+           # today = today.days
+            return render(request, 'customers.html', {'loan':loan, 'today': today })
     return redirect('app:login')
 
 
