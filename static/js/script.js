@@ -26,3 +26,11 @@ function show(){
         pw.type = "password";
     }
 }
+
+function getDays(){
+    let days = document.getElementById("days");
+    data = days.value;
+    days.textContent = "hey";
+}
+getDays();
+

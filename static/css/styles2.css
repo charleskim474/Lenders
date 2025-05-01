@@ -1,5 +1,5 @@
 body {
-    background: linear-gradient(to left,  red, yellow, black);
+    background-color: lightgray;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
@@ -8,6 +8,7 @@ body {
     font-weight: bold;
     color: navy;
     gap: 1px;
+   position: static;
 }
 
 
@@ -67,20 +68,20 @@ button:hover {
     }
 }
 
-.menu a{
+.menuDiv a{
     text-decoration: none;
     color: white;
-    border: 1px solid white;
     width: 150px;
     font-style: italic;
     font-size: 15px;
 }
-.menu a:visited {
+.menuDiv a:visited {
     color: white;
 }
-.menu a:hover{
+.menuDiv a:hover{
     cursor: pointer;
-    font-size: 25px;
+    font-size: 20px;
+    background-color: green;
 }
 
 .hidden {
@@ -99,12 +100,16 @@ button:hover {
         height: 100%;
         border-radius: 100%;
     }
-    
-    .menu {
-   /* background-color: #2c3e50;
+   
+   .logoDiv {
+     width: 10vw;
+     height: 60vh;
+   }
+    /*.menu {
+    background-color: #2c3e50;
     color: white;
     padding: 20px;
-  /*  position: fixed;
+    position: fixed;
     top: 50px;
     left: 20px;
     width: 200px;
@@ -112,10 +117,10 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    z-index: 20;*/
+    z-index: 20;
     height: 300px;
     overflow-y: auto;
-}
+}*/
 }
 .addButton {
     padding: 25px;
@@ -126,56 +131,68 @@ button:hover {
     top: 30vh;
     z-index: -1;
 }
+
+.menuDiv {
+   width: 20vw;
+   height: 80vh;
+   border: 1px solid black;
+   display: flex;
+   position: fixed;
+   top: 5px;
+   right: 5px;
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+   overflow-y: auto;
+   font-size: 15px;
+   background-color: #555555;
+   color: white;
+}
+
 .logoDiv {
-    width: 20vw;
+    width: 90%;
     height: 12vh;
-    display: flex;
-    flex-shrink: 0;
-    background-color: gray;
 }
 
 .nameDiv {
-    width: 60vw;
+    width: 70vw;
     height: 12vh;
+    display: flex;
+    padding: 10px;
+    right: 10px;
+    justify-content: center;
+    align-items: center;
     display: flex;
     flex-wrap: wrap;
     flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-    background-color: gray;
-}
-
-.menuDiv {
-    width: 15vw;
-    height: 12vh;
-    display: flex;
-    flex-wrap: wrap;
-    flex-shrink: 0;
-    justify-content: center;
-    align-items: center;
-    background-color: gray;
+    background-color: whitesmoke;
+    border-radius: 30px;
 }
 
 .summaryDiv {
-    width: 100vw;
+    width: 70vw;
     height: 30vh;
+    padding: 10px;
+    right: 10px;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    flex-shrink: 0;
+    gap: 10px;
+    overflow: auto;
+    font-size: 15px;
+    background-color: white;
     justify-content: left;
     align-items: center;
-    overflow: hidden;
-    background-color: cyan;
-    z-index: -1;
-    border-top-left-radius: 30px; 
-    border-bottom-right-radius: 30px; 
 }
 
 .notifDiv {
     padding: 5%;
-    width: 100vw;
+    width: 70vw;
     height: 48vh;
+    border: 1px solid black;
+    display: flex;
+    padding: 10px;
+    right: 10px;
     color: black;
     display: flex;
     flex-wrap: wrap;
@@ -183,14 +200,12 @@ button:hover {
     flex-shrink: 0;
     justify-content: center;
     align-items: center;
-    background-color: whitesmoke;
-    border: 1px dotted black;
+    background-color: white;
     border-radius: 15px;
-    z-index: -2;
 }
 .short {
-    width: 100vw;
-    height: 10vh;
+    width: 80vw;
+    height: 5vh;
     display: flex;
     padding: 10px;
     position: fixed;
@@ -198,5 +213,5 @@ button:hover {
     z-index: 10;
     background-color: bisque;
     border-radius: 50px;
-    opacity: 0.5;
+    z-index: 2;
 }

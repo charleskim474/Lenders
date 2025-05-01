@@ -1,16 +1,83 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="static/css/styles2.css">
-</head>
+{% extends "base2.html" %}
+{% block title %} Dashboard {%endblock%}
+{% block content %}
 
-<body>
+<div class="menuDiv">
+        <div class="logoDiv">
+                <img src="{{ lender.logo.url }}" class="logo">
+        </div>
+        
+        1.<a href="{% url 'app:home' %}">Home</a>
+        
+        2.<a href="{% url 'app:add_borrower' %}">Add Loan</a>
+        
+        3.<a href="{% url 'app:customers' %}">My Customers</a>
+        
+        4.<a href="{% url 'app:loans' %}">Available Loans</a>
+        
+        5.<a href="{% url 'app:repayments' %}">Repayments</a>
+        
+        6.<a href="#statistics">Statistics</a>
+        
+        7.<a href="{% url 'app:aggreements' %}">Agreements</a>
+        
+        8.<a href="#profile">Profile</a>
+        
+        9.<a href="#subscriptions">Subscriptions</a>
+        
+        10.<a href="#report error">Report Error</a>
+        
+        11.<a href="#help">Help</a>
+        
+        12.<a href="#about">About Kimtech</a>
+        
+        13.<a href="{% url 'app:logout' %}">Logout</a>
+        
+</div>
 
+<div class="nameDiv">
+        <span class="name">{{lender.co_name}}</span>
+        
+</div>
+<div class="summaryDiv">
+        
+        Subscription : {{lender.subscription}}.
+        
+        <br />
+        
+            Days left : {{lender.time_left}}
+       
+        <br />
+        
+            Expiry Date : {{lender.expiry}}
+       <br />
+            <button class="add">Add More Days</button>
+        
+</div>
+<div class="notifDiv">
+        
+        <h3>Notifications</h3>
+        <br />
+        {% if notifications %}
+        
+        {% for notif in notifications %}
+        
+        <ul>
+            <li>{{notif}}</li></li>
+        </ul>
     
-    <aside id="menu" class="menu hidden">
+       {% endfor %}
+       {% else %}
+      <h5>No notifications found!</h5>
+  						    {% endif %}
+        
+</div>
+<div class="short">
+        
+        -- shortcuts here --
+        
+</div>
+<!--   <aside id="menu" class="menu hidden">
         
         1.<a href="{% url 'app:home' %}">Home</a>
         
@@ -40,17 +107,17 @@
         
     </aside>
     
-    <!-- REAL LAYOUT -->    
+    <!-- REAL LAYOUT     
     
     
     <div class="logoDiv">
         
-        <img src="{{ lender.logo.url }}" class="logo">
+        
         
     </div>
     <div class="nameDiv">
         
-        <span class="name">{{lender.co_name}}</span>
+        
     </div>
     
     <div class="menuDiv">
@@ -61,45 +128,18 @@
     <div class="summaryDiv">
         
         
-            Subscription Status : {{lender.subscription}}.
-        
-        <br />
-        
-            Days left : {{lender.time_left}}
-       
-        <br />
-        
-            Expiry Date : {{lender.expiry}}
-       <br />
-        <div class="addButton">
-            <button class="add">Add More Days</button>
-        </div>
+            
         
     </div>
     
     <div class="notifDiv">
         <br />
-        <h3>Notifications</h3>
-        <hr />
-        {% if notifications %}
         
-        {% for notif in notifications %}
-        
-        <ul>
-            <li>{{notif}}</li></li>
-        </ul>
-    
-       {% endfor %}
-       {% else %}
-      <h5>No notifications found!</h5>
-  						    {% endif %}
     
     </div>
 
     <div class="short">
       ---  Shortcuts here ---
-    </div>
+    </div>  -->
 
-    <script src="static/js/script2.js"></script>
-</body>
-</html>
+{%endblock%}

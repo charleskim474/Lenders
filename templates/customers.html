@@ -13,9 +13,11 @@
 		<h1>
 				My Customers' Details.
 		</h1>
-  
   {% if loan %}
 		
+		<input type="text" name="search" placeholder="Search customer here"> <button type="button">Search</button>
+		<div class="table-content">
+				
 		<table class="table">
 				<tr>
 					<th>Photo</th>
@@ -55,10 +57,10 @@
 				</tr>
 		{%endfor%}
 		</table>
-  
+		</div>
   {%else%}
   <h1>No Customer(s) found</h1>
   {%endif%}
-		
+				<script src="/static/js/script.js"></script>
 </body>
 </html>

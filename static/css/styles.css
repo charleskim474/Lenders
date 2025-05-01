@@ -127,13 +127,37 @@ button:hover {
     padding: 10px;
 }
 
+
+.table {
+    border-collapse: collapse;
+    padding: 10%;
+    width: 80%;
+}
 		.table th{
-  color: red;
-  background-color: palegreen;
-  font-size: 20px;
-  align-items: center;
+     color: red;
+     background-color: palegreen;
+		    border: 3px solid black;
+     font-size: 20px;
+     align-items: center;
 }
 
 .table td{
-  background-color: lightgray;
+    background-color: white;
+    border: 3px solid black;
+    padding: 10px;
+}
+
+.table-content {
+    background-color: white;
+    padding: 20px;
+    margin: 20px;
+    border: 6px solid black;
+    /*width: 100vw;*/
+}
+
+tr:nth-child(2) {
+    background-color: blue;
+}
+tr:nth-child(4){
+    background-color: lightblue;
 }
