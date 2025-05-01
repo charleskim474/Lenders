@@ -4,23 +4,29 @@
 <head>
 		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 		<title>My Customers</title>
-  <link rel="stylesheet" href="/static/css/styles.css">
-		<script src="/static/js/script2.js" defer></script>
+  <link rel="stylesheet" href="/static/css/styles3.css">
+		<!--<link rel="stylesheet" href="/static/css/styles.css">-->
+	
 		
 </head>
 
 <body>
+		<!--
+{% extends "base2.html" %}
+{% block title %} My Customers {% endblock %}
+{% block content %} -->
 		<h1>
 				My Customers' Details.
 		</h1>
   {% if loan %}
 		
 		<input type="text" name="search" placeholder="Search customer here"> <button type="button">Search</button>
-		<div class="table-content">
+		
+		<!--		<div class="table-content">-->
 				
-		<table class="table">
+		<table class="table" id="myTable">
 				<tr>
-					<th>Photo</th>
+						<th>Photo</th>
 				<th> Loan date</th>
 				<th>ID</th>
 				<th>Loan ID</th>
@@ -33,12 +39,12 @@
 				<th>Loan Balance</th>
 				<th>Expiry</th>
 				</tr>
-		  {% for l in loan %}
+				 {% for l in loan %}
 				<tr>
 				  
 								<td><img src="{{l.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"></td>
 				  
-				  <td>{{l.loan_Date}}</td>
+  <td>{{l.loan_Date}}</td>
 						
 						<td>{{l.borrower_id.id}}</td>
 				  
@@ -54,13 +60,54 @@
 								<td> {{l.borrower_id.pin}} </td>
 				  <td>{{l.balance}}</td>
 				  <td id="days">{{l.last_date}}</td>
-				</tr>
+				</tr> 
 		{%endfor%}
 		</table>
-		</div>
+		<!--		</div>-->
   {%else%}
   <h1>No Customer(s) found</h1>
   {%endif%}
+		
+		<div class="short">
+        
+        <div class="addDiv">
+                
+              <a href="{% url 'app:add_borrower' %}"> <img src="/static/images/add-loan.jpeg"> </a>
+                
+        </div>
+        <div class="repayDiv">
+                
+              <a href="{% url 'app:repayments' %}"> <img src="/static/images/repayment-icon.png"></a>
+                
+        </div>
+        <div class="statDiv">
+                
+               <a href="#statistics"><img src="/static/images/statistics-icon.png"></a>
+        
+        </div>
+        <div class="hmDiv">
+                
+                <a href="{% url 'app:home' %}"><img src="/static/images/home-icon.png"></a>
+
+        </div>
+        
+</div>
+		
 				<script src="/static/js/script.js"></script>
+	<script src="static/js/script2.js" defer></script>
+		
+		<script>
+		let table = document.getElementById("myTable");
+let rows = table.getElementsByTagName("tr");
+
+for(let i = 0; i<rows.length; i++){
+    if(i%2 == 0){
+        rows[i].style.backgroundColor = 'lightgray';
+    } else{
+        rows[i].style.backgroundColor = 'lightblue';
+    }
+}
+</script>
+		<!--{% endblock %}-->
 </body>
 </html>

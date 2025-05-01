@@ -1,0 +1,147 @@
+body {
+    background-color: lightgray;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: navy;
+    gap: 1px;
+   position: static;
+}a
+
+h1{
+    width: 100vw;
+    font-family: 'Roboto', sans-serif;
+    font-size: 80px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+
+input {
+    border: 5px solid blue;
+    border-radius: 30px;
+    width: 50%;
+    height: 50px;
+    font-size: 30px;
+}
+
+button{
+    width: 100px;
+    height: 50px;
+    background-color: blue;
+    border:none;
+    border-radius: 100px;
+    color: white;
+    font-size: 20px;
+}
+
+.table {
+    border-collapse: collapse;
+    padding: 10px;
+    margin: 10px;
+    width: 80%;
+}
+.table th{
+     color: red;
+     background-color: palegreen;
+		    border: 3px solid black;
+     font-size: 40px;
+     align-items: center;
+}
+
+.table td{
+    font-size: 30px;
+    border: 3px solid black;
+    padding: 10px;
+}
+
+.short {
+    width: 80vw;
+    height: 5vh;
+    display: flex;
+   /* padding: 10px;*/
+    position: fixed;
+    bottom: 10px;
+    z-index: 10;
+    background-color: black;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.short img {
+    width: 80%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.short a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.repayDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.statDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hmDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+		
+
+@media screen and (orientation: landscape){
+    .short {
+    width: 80vw;
+    height: 15vh;
+    display: flex;
+   /* padding: 10px;*/
+    position: fixed;
+    bottom: 10px;
+    z-index: 10;
+    background-color: black;
+    border-radius: 50px;
+    z-index: 2;
+}
+
+.short img {
+    width: 50%;
+    height: 80%;
+    border-radius: 100%;
+}
+
+}

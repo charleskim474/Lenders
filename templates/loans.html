@@ -3,29 +3,17 @@
 <html>
 <head>
 		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<title>Hello, World!</title>
-				<style>
-		
-		.table th{
-  color: red;
-  background-color: palegreen;
-  font-size: 20px;
-  align-items: center;
-}
-
-.table td{
-  background-color: lightgray;
-}
-
-		</style>
+		<title>Loans</title>
+  <link rel="stylesheet" href="/static/css/styles3.css">
 </head>
+
 <body>
 		<h1>
-				Hello, World!
-				<h1>
+				Tracked Loans
+				</h1>
 						
 				  {% if loans %}
-						<table class="table">
+						<table class="table" id="myTable">
 								
 										<tr>
 												<th>L_ID</th>
@@ -61,9 +49,47 @@
 		
 				{%endfor%}
 					</table>
+								<br /><br /><br /><br />
 						  {%else%}
 						  <h1>No Loan(s) found!</h1>
 						  {%endif%}
-		</h1>
+		
+										<div class="short">
+        
+        <div class="addDiv">
+                
+              <a href="{% url 'app:add_borrower' %}"> <img src="/static/images/add-loan.jpeg"> </a>
+                
+        </div>
+        <div class="repayDiv">
+                
+              <a href="{% url 'app:repayments' %}"> <img src="/static/images/repayment-icon.png"></a>
+                
+        </div>
+        <div class="statDiv">
+                
+               <a href="#statistics"><img src="/static/images/statistics-icon.png"></a>
+        
+        </div>
+        <div class="hmDiv">
+                
+                <a href="{% url 'app:home' %}"><img src="/static/images/home-icon.png"></a>
+
+        </div>
+        
+</div>
+										
+<script>
+		let table = document.getElementById("myTable");
+let rows = table.getElementsByTagName("tr");
+
+for(let i = 0; i<rows.length; i++){
+    if(i%2 == 0){
+        rows[i].style.backgroundColor = 'lightgray';
+    } else{
+        rows[i].style.backgroundColor = 'lightblue';
+    }
+}
+</script>
 </body>
 </html>

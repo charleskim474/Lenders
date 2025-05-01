@@ -1,3 +1,22 @@
+    /*.menu {
+    background-color: #2c3e50;
+    color: white;
+    padding: 20px;
+    position: fixed;
+    top: 50px;
+    left: 20px;
+    width: 200px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 20;
+    height: 300px;
+    overflow-y: auto;
+}*/
+
+
+
 body {
     background-color: lightgray;
     display: flex;
@@ -94,34 +113,7 @@ button:hover {
     border-radius: 100%;
 }
 
-@media screen and (orientation: landscape){
-    .logo{
-        width: 35%;
-        height: 100%;
-        border-radius: 100%;
-    }
-   
-   .logoDiv {
-     width: 10vw;
-     height: 60vh;
-   }
-    /*.menu {
-    background-color: #2c3e50;
-    color: white;
-    padding: 20px;
-    position: fixed;
-    top: 50px;
-    left: 20px;
-    width: 200px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 20;
-    height: 300px;
-    overflow-y: auto;
-}*/
-}
+
 .addButton {
     padding: 25px;
     width: 200px;
@@ -157,12 +149,11 @@ button:hover {
 .nameDiv {
     width: 70vw;
     height: 12vh;
-    display: flex;
     padding: 10px;
     right: 10px;
+    display: flex;
     justify-content: center;
     align-items: center;
-    display: flex;
     flex-wrap: wrap;
     flex-shrink: 0;
     background-color: whitesmoke;
@@ -172,6 +163,7 @@ button:hover {
 .summaryDiv {
     width: 70vw;
     height: 30vh;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
     padding: 10px;
     right: 10px;
     display: flex;
@@ -183,6 +175,7 @@ button:hover {
     background-color: white;
     justify-content: left;
     align-items: center;
+    z-index: 2;
 }
 
 .notifDiv {
@@ -190,6 +183,7 @@ button:hover {
     width: 70vw;
     height: 48vh;
     border: 1px solid black;
+    box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
     display: flex;
     padding: 10px;
     right: 10px;
@@ -207,11 +201,94 @@ button:hover {
     width: 80vw;
     height: 5vh;
     display: flex;
-    padding: 10px;
+   /* padding: 10px;*/
     position: fixed;
     bottom: 10px;
     z-index: 10;
-    background-color: bisque;
+    background-color: black;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.short img {
+    width: 80%;
+    height: 100%;
+    border-radius: 100%;
+}
+
+.short a {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.addDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.repayDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.statDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hmDiv {
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+		
+
+@media screen and (orientation: landscape){
+    .logo{
+        width: 35%;
+        height: 100%;
+        border-radius: 100%;
+    }
+   
+   .logoDiv {
+     width: 10vw;
+     height: 60vh;
+   }
+    
+    .short {
+    width: 80vw;
+    height: 15vh;
+    display: flex;
+   /* padding: 10px;*/
+    position: fixed;
+    bottom: 10px;
+    z-index: 10;
+    background-color: black;
     border-radius: 50px;
     z-index: 2;
+}
+
+.short img {
+    width: 50%;
+    height: 80%;
+    border-radius: 100%;
+}
+
 }

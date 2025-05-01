@@ -4,6 +4,7 @@
 <head>
 		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 		<title>Add Loan</title>
+		<link rel="stylesheet" href="/static/css/styles2.css">
 		<link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
@@ -102,7 +103,31 @@
 				</form>
 				<!--</div>-->
 		
-		
+				
+		<div class="short">
+        
+        <div class="addDiv">
+                
+              <a href="{% url 'app:add_borrower' %}"> <img src="/static/images/add-loan.jpeg"> </a>
+                
+        </div>
+        <div class="repayDiv">
+                
+              <a href="{% url 'app:repayments' %}"> <img src="/static/images/repayment-icon.png"></a>
+                
+        </div>
+        <div class="statDiv">
+                
+               <a href="#statistics"><img src="/static/images/statistics-icon.png"></a>
+        
+        </div>
+        <div class="hmDiv">
+                
+                <a href="{% url 'app:home' %}"><img src="/static/images/home-icon.png"></a>
+
+        </div>
+        
+</div>
 		
 </body>
 </html>

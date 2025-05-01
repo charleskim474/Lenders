@@ -6,3 +6,5 @@ document.getElementById("menu-button").addEventListener("click", function () {
     menu.classList.toggle("hidden");
 });
 
+alert("hey");
+
