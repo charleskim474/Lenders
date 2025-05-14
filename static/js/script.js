@@ -33,4 +33,3 @@ function getDays(){
     days.textContent = "hey";
 }
 getDays();
-

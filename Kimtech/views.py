@@ -44,6 +44,7 @@ def create_account(request):
                 subscription_status = 'Trial'
              )#Expiry is added automatically
             exp_check()
+            request.session['uname'] = username
             print('\n\n=====>>SAVED lender SUCCESSFULLY\n\n')
             lender = Lender.objects.get(username = username)
             return render(request, 'dashboard.html', {'lender' : lender})
