@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repayments</title>
+    <link rel="stylesheet" href="/static/css/styles3.css">
+</head>
+<body>
+    <header>
+        <h1>Loan Repayment History</h1>
+    </header>
+
+    {% if repayments %}
+    <div class="table-container">
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Date</th>
+                    <th>B_ID</th>
+                    <th>Ln_id</th>
+                    <th>Name</th>
+                    <th>Paid</th>
+                    <th>% Pay</th>
+                    <th>Time Left</th>
+                    <th>Bal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in repayments %}
+                <tr>
+                    <td><img src="{{r.borrower_id.photo.url}}" class="profile-pic"></td>
+                    <td>{{r.date}}</td>
+                    <td>{{r.borrower_id.id}}</td>
+                    <td>{{r.loan_id.id}}</td>
+                    <td>{{r.borrower_id.name}}</td>
+                    <td>{{r.paid}}</td>
+                    <td>{{r.percentage_paid}} %</td>
+                    <td class="{% if r.time_left < 0 %}expired{% elif r.time_left == 0 %}today{% endif %}">
+                        {% if r.time_left < 0 %}Loan Expired!{% elif r.time_left == 0 %}Ends Today!{% else %}{{r.time_left}}{% endif %}
+                    </td>
+                    <td>{{r.bal}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <h1>No record(s) found!</h1>
+    {% endif %}
+
+    <div class="reForm">
+        <form action="{% url 'app:repayments' %}" method="POST">
+            {% csrf_token %}
+            <label>NAME:</label>
+            <select name="id">
+                {% for l in loans %}
+                <option value="{{l.borrower_id.id}}">
+                    <img src="{{l.borrower_id.photo.url}}" class="small-profile-pic">
+                    {{l.borrower_id.name}}
+                </option>
+                {% endfor %}
+            </select>
+            <input type="text" name="paid" placeholder="Paid amount">
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <script>
+        let table = document.getElementById("myTable");
+        let rows = table.getElementsByTagName("tr");
+
+        for(let i = 0; i < rows.length; i++){
+            rows[i].style.backgroundColor = i % 2 === 0 ? 'lightgray' : 'lightblue';
+        }
+    </script>
+</body>
+</html>
+        
+        
+        
+
+            
+    </div>
+    
+        
+        
+        <!-- my original copy -->
+        
+        
+       
+
+<!DOCTYPE html>
+
+<html>
+<head>
+		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+		<title>Repayments</title>
+  <link rel="stylesheet" href="/static/css/styles3.css">
+</head>
+<body>
+		
+		
+		<p class="head">
+				Loan Repayment History
+				</p>
+		
+		
+				{% if repayments %}
+				<table class="table" id = "myTable">
+				  <tr>
+						<th>Photo</th>
+						<th>Date</th>
+						<th>B_ID</th>
+						<th>Ln_id</th>
+						<th>Name</th>
+						<th>Paid</th>
+						<th>% pay</th>
+				    <th>Time left</th>
+						<th>Bal</th>
+				</tr>
+						
+				{% for r in repayments %}
+				  <tr>
+				  		
+				<td><img src="{{r.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"></td>
+				<td>{{r.date}}</td>
+				<td>{{r.borrower_id.id}}</td>
+				<td>{{r.loan_id.id}}</td>
+				<td>{{r.borrower_id.name}}</td>
+				<td>{{r.paid}}</td>
+				<td>{{r.percentage_paid}} %</td>
+				    
+				    {% if r.time_left < 0 %}
+				    <td style="color:red;">Loan Expired!</td> 
+				    {%elif r.time_left == 0 %}
+				    <td>Ends Today!</td>
+				    {%else%}
+				<td>{{r.time_left}}</td>
+				    {%endif%}
+				<td>{{r.bal}}</td>
+				  </tr>
+				  		
+				{%endfor%}
+				  		
+				</table>
+						
+				{%else%}
+				<h1>No record(s) found!</h1>
+				{%endif%}
+				
+						<div class="reForm">
+								
+								<form action="{% url 'app:repayments' %}" method="POST">
+		    {% csrf_token %}
+		    
+		    <select name = 'id'>
+		      NAME:  
+		      {% for l in loans %}
+		    <option value="{{l.borrower_id.id}}"><img src="{{l.borrower_id.photo.url}}" style="width: 50px; height: 50px; border-radius: 50px;">{{l.borrower_id.name}}</option>
+		      {%endfor%}
+		    </select>
+		    
+		    <input type="text" name="paid" placeholder="Paid amount">
+		    <button type="submit">Save</button>
+		    
+		  </form>
+								
+						</div>
+
+
+<script>
+		let table = document.getElementById("myTable");
+let rows = table.getElementsByTagName("tr");
+
+for(let i = 0; i<rows.length; i++){
+    if(i%2 == 0){
+        rows[i].style.backgroundColor = 'lightgray';
+    } else{
+        rows[i].style.backgroundColor = 'lightblue';
+    }
+}
+</script>
+
+</body>
+</html>

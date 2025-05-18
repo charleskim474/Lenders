@@ -1,0 +1,108 @@
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body styling */
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Heading */
+h1 {
+    width: 100%;
+    height: 40px;
+    font-size: 30px;
+    text-align: center;
+}
+
+/* Table Styling */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    border: 2px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+.table th {
+    background-color: palegreen;
+    color: red;
+    font-size: 30px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+/* Conditional Styling for Loan Expiry */
+.expired {
+    color: red;
+    font-weight: bold;
+}
+
+.today {
+    font-weight: bold;
+    color: purple;
+}
+
+/* Form Styling */
+.reForm {
+    width: 100%;
+    max-width: 600px;
+    border: 2px solid black;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reForm select, .reForm input, .reForm button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px;
+}
+
+.reForm button {
+    background-color: blue;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+}
+
+.reForm button:hover {
+    background-color: green;
+}
+
+.small-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .table th, .table td {
+        font-size: 20px;
+    }
+}

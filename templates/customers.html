@@ -5,16 +5,12 @@
 		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
 		<title>My Customers</title>
   <link rel="stylesheet" href="/static/css/styles3.css">
-		<!--<link rel="stylesheet" href="/static/css/styles.css">-->
-	
 		
 </head>
 
 <body>
-		<!--
-{% extends "base2.html" %}
-{% block title %} My Customers {% endblock %}
-{% block content %} -->
+		
+		
 		<h1>
 				My Customers' Details.
 		</h1>
@@ -22,7 +18,7 @@
 		
 		<input type="text" name="search" placeholder="Search customer here"> <button type="button">Search</button>
 		
-		<!--		<div class="table-content">-->
+				<div class="table-content">
 				
 		<table class="table" id="myTable">
 				<tr>
@@ -41,8 +37,11 @@
 				</tr>
 				 {% for l in loan %}
 				<tr>
-				  
-								<td><img src="{{l.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"></td>
+						
+						<td>
+                        <img src="{{l.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic">
+						</td>
+				
 				  
   <td>{{l.loan_Date}}</td>
 						
@@ -54,7 +53,7 @@
 				  
 				 		<td><a href="tel:{{l.borrower_id.tel}}">{{l.borrower_id.tel}}</a> </td>
 				  
-								<td> {{l.borrower_id.email}} </td>
+								<td> <a href="mailto:{{l.borrower_id.email}}">{{l.borrower_id.email}} </a> </td>
 								<td> {{l.borrower_id.location}} </td>
 								<td> {{l.borrower_id.NIN}} </td>
 								<td> {{l.borrower_id.pin}} </td>
@@ -67,6 +66,12 @@
   {%else%}
   <h1>No Customer(s) found</h1>
   {%endif%}
+						
+						
+						<div id="modal" onclick ="closeImage()">
+             <img id="fullImage" src="">
+   </div>
+						
 		
 		<div class="short">
         
@@ -93,6 +98,16 @@
         
 </div>
 		
+		
+		   <br>
+    <br>
+    <br>
+    <br>
+						  <br>
+    <br>
+    <br>
+    <br>
+		
 				<script src="/static/js/script.js"></script>
 	<script src="static/js/script2.js" defer></script>
 		
@@ -107,7 +122,21 @@ for(let i = 0; i<rows.length; i++){
         rows[i].style.backgroundColor = 'lightblue';
     }
 }
+		
+		
+		function openImage(imageElement){
+            document.getElementById("fullImage").src = imageElement.src;
+            document.getElementById("modal").style.display = "flex";
+            console.log("opened");
+        }
+            
+            
+            function closeImage(){
+                document.getElementById("modal").style.display = "none";
+                console.log("closed");
+            }
+		
+		
 </script>
-		<!--{% endblock %}-->
 </body>
 </html>

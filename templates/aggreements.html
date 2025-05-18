@@ -1,35 +1,86 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width = device-width, initial-scale = 1.0">
-		<title>Hello, World!</title>
+    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agreements</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles3.css">
 </head>
 <body>
-		<h1>
-				Hello, World!
-				
-				{% if info %}
-				{% for i in info %}
-				<h2>
-						**************************<br>
-						IMG  : <img src="{{i.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"><br>
-						Name : {{i.borrower_id.name}}<br>
-						Ln ID: {{i.loan_id.id}} <br>
-						B  ID: {{i.borrower_id.id}}<br>
-						Ag ID: {{i.aggr_id.id}}<br>
-						Asset: {{i.asset_name}}<br>
-						Desc : {{i.description}}<br>
-						Proof: <img src="{{i.proof.url}}" style="width: 100px; height: 100px;"><br>
-						As_Ph : <img src="{{i.asset_photo.url}}" style="width: 100px; height: 100px;"><br>
-						************************************<br>
-								
-								{%endfor%}
-				</h2>
-				{%else%}
-				<h1>No aggreeements found for this company</h1>
-				{%endif%}
-		</h1>
+    <header>
+        <h1>Customers' Loan Agreements</h1>
+    </header>
+
+    {% if info %}
+        {% for i in info %}
+            <div class="agreements">
+                <img src="{{ i.borrower_id.photo.url }}" alt="Thumbnail" onclick="openImage(this)" width="100" class="agr-pic"><br>
+                <hr>
+                <span class="titles">Name:</span> {{ i.borrower_id.name }}<br>
+                <hr>
+                <span class="titles">Loan ID:</span> {{ i.loan_id.id }}<br>
+                <hr>
+                <span class="titles">Agreement ID:</span> {{ i.aggr_id.id }}<br>
+                <hr>
+                <span class="titles">Asset Name:</span> {{ i.asset_name }}<br>
+                <hr>
+                <span class="titles">Description of Asset (conditions)</span><br><br>
+                {{ i.description }}<br>
+                <hr>
+                <span class="titles">Ownership Proof</span><br>
+                <img src="{{ i.proof.url }}" alt="Thumbnail" onclick="openImage(this)" width="100"><br>
+                <hr>
+                <span class="titles">Asset Photo</span><br>
+                <img src="{{ i.asset_photo.url }}" alt="Thumbnail" onclick="openImage(this)" width="100"> <br>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h1>No agreements found for this company</h1>
+    {% endif %}
+
+    <div id="modal" onclick        <img id="fullImage" src="">
+    </div>
+
+    <div class="short">
+        <div class="addDiv">
+            <a href="{% url 'app:add_borrower' %}">
+                <img src="/static/images/add-loan.jpeg">
+            </a>
+        </div>
+        <div class="repayDiv">
+            <a href="{% url 'app:repayments' %}">
+                <img src="/static/images/repayment-icon.png">
+            </a>
+        </div>
+        <div class="statDiv">
+            <a href="#statistics">
+                <img src="/static/images/statistics-icon.png">
+            </a>
+        </div>
+        <div class="hmDiv">
+            <a href="{% url 'app:home' %}">
+                <img src="/static/images/home-icon.png">
+            </a>
+        </div>
+    </div>
+    
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <script>
+        function openImage(imageElement) {
+            document.getElementById("fullImage").src = imageElement.src;
+            document.getElementById("modal").style.display = "flex";
+            console.log("opened");
+        }
+
+        function closeImage() {
+            document.getElementById("modal").style.display = "none";
+            console.log("closed");
+        }
+    </script>
 </body>
 </html>

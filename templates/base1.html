@@ -1,21 +1,19 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="icon" type="image/png" href="/static/images/logo.png">
-		<link rel="stylesheet" href="/static/css/styles.css">
-	<link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-		<title>Kimtech</title>
-	
+    <meta http-equiv="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/static/images/logo.png">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>Kimtech</title>
 </head>
 <body>
-	
-		{% block content %}
-		{%endblock%}
-		{% block scripts %}
-			<script src="/static/js/script.js"></script>
-		{% endblock scripts%}
+    {% block content %}
+    {% endblock %}
+
+    {% block scripts %}
+        <script src="/static/js/script.js"></script>
+    {% endblock %}
 </body>
 </html>

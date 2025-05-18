@@ -1,68 +1,163 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-  <meta name="viewport" content="width = device-width, initial-scale = 1.0">
-		<title>Repayments</title>
-  <link rel="stylesheet" href="/static/css/styles2.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repayments</title>
+    <link rel="stylesheet" href="/static/css/styles3.css">
 </head>
+
+
 <body>
-		<h1>
-				Hello, World!
-				{% if repayments %}
-				<table class="table">
-				  <tr>
-						<th>Photo</th>
-						<th>Date</th>
-						<th>B_ID</th>
-						<th>Ln_id</th>
-						<th>Name</th>
-						<th>Paid</th>
-						<th>% pay</th>
-				    <th>Time left</th>
-						<th>Bal</th>
-				</tr>
-				{% for r in repayments %}
-				  <tr>
-				<td><img src="{{r.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"></td>
-				<td>{{r.date}}</td>
-				<td>{{r.borrower_id.id}}</td>
-				<td>{{r.loan_id.id}}</td>
-				<td>{{r.borrower_id.name}}</td>
-				<td>{{r.paid}}</td>
-				<td>{{r.percentage_paid}} %</td>
-				    
-				    {% if r.time_left < 0 %}
-				    <td style="color:red;">Loan Expired!</td> 
-				    {%elif r.time_left == 0 %}
-				    <td>Ends Today!</td>
-				    {%else%}
-				<td>{{r.time_left}}</td>
-				    {%endif%}
-				<td>{{r.bal}}</td>
-				  </tr>
-				{%endfor%}
-				</table>
-				{%else%}
-				<h1>No record found</h1>
-				{%endif%}
-				
-		  <form action="{% url 'app:repayments' %}" method="POST">
-		    {% csrf_token %}
-		    
-		    <select name = 'id'>
-		      NAME:  
-		      {% for l in loans %}
-		    <option value="{{l.borrower_id.id}}"><img src="{{l.borrower_id.photo.url}}" style="width: 50px; height: 50px; border-radius: 50px;">{{l.borrower_id.name}}</option>
-		      {%endfor%}
-		    </select>
-		    
-		    <input type="text" name="paid" placeholder="Paid amount">
-		    <input type="submit">
-		    
-		  </form>
-				
-		</h1>
+    
+     <header>
+       <h1>Loan Repayment History</h1>
+    </header>
+    
+    
+    {% if repayments %}
+    
+     <div class="table-container">
+        <table class="table" id="myTable">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Loan_Date</th>
+                    <th>Borrower_ID</th>
+                    <th>Loan_ID</th>
+                    <th>Borrower_Name</th>
+                    <th>Paid_Amount</th>
+                    <th>Percentage_Paid</th>
+                    <th>Days_Left</th>
+                    <th>Loan_Balance</th>
+                </tr>
+            </thead>
+    
+    {% else %}
+    <h1>No record(s) found!</h1>
+    {% endif %}
+    
+            
+    <tbody>
+                {% for r in repayments %}
+                <tr>
+                    <td>
+                        <img src="{{r.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic">
+                    </td>
+                    
+                    <td>{{r.loan_id.loan_Date}}</td>
+                    <td>{{r.borrower_id.id}}</td>
+                    <td>{{r.loan_id.id}}</td>
+                    <td>{{r.borrower_id.name}}</td>
+                    <td>{{r.paid}}</td>
+                    <td>{{r.percentage_paid}} %</td>
+                    
+                    {% if r.time_left < 0 %}
+                    <td style="color: red">Expired on {{r.loan_id.last_date}} </td>
+                    {% elif r.time_left == 0 %}
+                    <td style="color: black; background-color: orange;">Expires today </td>
+                    {% else %}
+                    <td>{{r.time_left}}</td>
+                    
+                    {% endif %}
+                    </td>
+                    <td>{{r.bal}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+         
+         
+         <div id="modal" onclick ="closeImage()">
+             <img id="fullImage" src="">
+         </div>
+         
+    
+    <h4>Register a payment below.</4>
+    <div class="reForm">
+        <form action="{% url 'app:repayments' %}" method="POST">
+            {% csrf_token %}
+            <br>
+            <br>
+            <label for="select">NAME:</label>
+            <br>
+            <br>
+            <select name="id" id="select">
+                {% for l in loans %}
+                <option value="{{l.borrower_id.id}}">
+                    <img src="{{l.borrower_id.photo.url}}" class="small-profile-pic">
+                    {{l.borrower_id.name}}
+                </option>
+                {% endfor %}
+            </select>
+            <br>
+            <br>
+            <label for="pay">Amount Paid</label
+            <input type="text" id="pay" name="paid" placeholder="Paid amount">
+            <br>
+            <br>
+            <button type="submit">Save</button>
+            
+        </form>
+    </div>
+         
+         
+    <br>
+    <br>
+    <br>
+    <br>
+         
+         
+    		<div class="short">
+        
+        <div class="addDiv">
+                
+              <a href="{% url 'app:add_borrower' %}"> <img src="/static/images/add-loan.jpeg"> </a>
+                
+        </div>
+        <div class="repayDiv">
+                
+              <a href="{% url 'app:repayments' %}"> <img src="/static/images/repayment-icon.png"></a>
+                
+        </div>
+        <div class="statDiv">
+                
+               <a href="#statistics"><img src="/static/images/statistics-icon.png"></a>
+        
+        </div>
+        <div class="hmDiv">
+                
+                <a href="{% url 'app:home' %}"><img src="/static/images/home-icon.png"></a>
+
+        </div>
+        
+</div>
+        
+        
+    <script>
+        let table = document.getElementById("myTable");
+        let rows = table.getElementsByTagName("tr");
+
+        for(let i = 0; i < rows.length; i++){
+            rows[i].style.backgroundColor = i % 2 === 0 ? 'lightgray' : 'lightblue';
+        }
+            
+            
+        function openImage(imageElement){
+            document.getElementById("fullImage").src = imageElement.src;
+            document.getElementById("modal").style.display = "flex";
+            console.log("opened");
+        }
+            
+            
+            function closeImage(){
+                document.getElementById("modal").style.display = "none";
+                console.log("closed");
+            }
+    </script>
+            
+            
+            
 </body>
 </html>

@@ -8,37 +8,39 @@
 </head>
 
 <body>
-		<h1>
-				Tracked Loans
-				</h1>
+		
+		    <header>
+       <h1 style="font-size: 70px;">Tracked Loans</h1>
+    </header>
 						
 				  {% if loans %}
 						<table class="table" id="myTable">
 								
 										<tr>
-												<th>L_ID</th>
-												<th>B_ID</th>
-										  <th>Img</th>
-												<th>L Date</th>
-												<th>Amm</th>
-												<th>Rate</th>
-												<th>P_Fee</th>
-												<th>Total</th>
-												<th>duration</th>
-										  <th>Last date</th>
+												<th>Photo</th>
+												<th>Borrower_ID</th>
+												<th>Loan_Date</th>
+												<th>Loan_Amount</th>
+												<th>Interest_Rate</th>
+												<th>Processing_Fee</th>
+												<th>Total_Loan Amount</th>
+												<th>Loan Duration</th>
+										  <th>Last_Date</th>
 								</tr>
 					
 				{% for l in loans %}
 			<tr>
-			  <td><img src="{{l.borrower_id.photo.url}}"  style="width: 100px; height: 100px; border-radius: 50px;"></td>
-										<td>{{l.lender_id.id}}</td>
+					
+					<td>
+                        <img src="{{l.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic">
+						</td>
 										<td>{{l.borrower_id.id}}</td>
 										<td>{{l.loan_Date}}</td>
 										<td>{{l.loan_amount}}</td>
 										<td>{{l.interest_rate}}</td>
 										<td>{{l.processing_fee}}</td>
 										<td>{{l.total_amm}}</td>
-										<td>{{l.duration}}</td>
+										<td>{{l.duration}} day(s)</td>
 			  {% if l.last_date < today %}
 			  <td style="color:red;">{{l.last_date}}</td>
 			  {%else%}
@@ -53,6 +55,21 @@
 						  {%else%}
 						  <h1>No Loan(s) found!</h1>
 						  {%endif%}
+								
+								<div id="modal" onclick ="closeImage()">
+             <img id="fullImage" src="">
+    </div>
+								
+								
+								<br>
+    <br>
+    <br>
+    <br>
+						  <br>
+    <br>
+    <br>
+    <br>
+		
 		
 										<div class="short">
         
@@ -90,6 +107,20 @@ for(let i = 0; i<rows.length; i++){
         rows[i].style.backgroundColor = 'lightblue';
     }
 }
+		
+		function openImage(imageElement){
+            document.getElementById("fullImage").src = imageElement.src;
+            document.getElementById("modal").style.display = "flex";
+            console.log("opened");
+        }
+            
+            
+            function closeImage(){
+                document.getElementById("modal").style.display = "none";
+                console.log("closed");
+            }
+		
+		
 </script>
 </body>
 </html>
