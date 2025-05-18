@@ -15,7 +15,8 @@
     {% if info %}
         {% for i in info %}
             <div class="agreements">
-                <img src="{{ i.borrower_id.photo.url }}" alt="Thumbnail" onclick="openImage(this)" width="100" class="agr-pic"><br>
+                
+                <img src="{{i.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic"><br>
                 <hr>
                 <span class="titles">Name:</span> {{ i.borrower_id.name }}<br>
                 <hr>
@@ -39,8 +40,9 @@
         <h1>No agreements found for this company</h1>
     {% endif %}
 
-    <div id="modal" onclick        <img id="fullImage" src="">
-    </div>
+    <div id="modal" onclick ="closeImage()">
+             <img id="fullImage" src="">
+         </div>
 
     <div class="short">
         <div class="addDiv">
@@ -69,18 +71,23 @@
     <br>
     <br>
     <br>
-
+    <script src="/static/js/script2.js"></script>
     <script>
-        function openImage(imageElement) {
+    
+    alert("This is is a test version, If you click on a certain feature and it does not respond, just know it is still under development.  Thank you.");
+
+
+        function openImage(imageElement){
             document.getElementById("fullImage").src = imageElement.src;
             document.getElementById("modal").style.display = "flex";
             console.log("opened");
         }
-
-        function closeImage() {
-            document.getElementById("modal").style.display = "none";
-            console.log("closed");
-        }
+            
+            
+            function closeImage(){
+                document.getElementById("modal").style.display = "none";
+                console.log("closed");
+            }
     </script>
 </body>
 </html>
