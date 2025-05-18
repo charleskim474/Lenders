@@ -24,19 +24,19 @@
 					<h1>Borrower details</h1>
 						
 						<label>Photo</label><br />
-						<input type="file" name="photo" placeholder="PHOTO"><br>
+						<input type="file" name="photo" placeholder="PHOTO" required><br>
 					
 						<label>Full Name</label><br />
-						<input type="text" name = "name" placeholder="Full name"><br>
+						<input type="text" name = "name" placeholder="Full name" required><br>
 						
 						<label>Phone Number:</label><br />
-						<input type="text" name="tel" placeholder="Telephone"><br>
+						<input type="text" name="tel" placeholder="Telephone" required><br>
 						
 							<label>Email</label><br />
-						<input type="email" name="email" placeholder="email"><br>
+						<input type="email" name="email" placeholder="email" required><br>
 						
 							<label>Place of Residence</label><br />
-						<input type="text" name="location" placeholder="location"><br>
+						<input type="text" name="location" placeholder="location" required><br>
 						
 						
 							<label>NIN</label><br />
@@ -46,10 +46,10 @@
 						
 						{%endif%}
 						
-						<input type="text" name="NIN" placeholder="NIN"><br>
+						<input type="text" name="NIN" placeholder="NIN" required><br>
 						
 							<label>Password</label><br />
-						<input type="text" name="pin" placeholder="PIN"><br>
+						<input type="text" name="pin" placeholder="PIN" required><br>
 						
 				</div>
 						
@@ -58,16 +58,16 @@
 						<h1>Loan details</h1>
 						
 								<label>Applied Amount</label><br />
-							<input type="text" name="loan_amount" placeholder="loan amount"><br>
+							<input type="text" name="loan_amount" placeholder="loan amount" required><br>
 						
 								<label>Interest (%)</label><br />
-							<input type="text" name="interest_rate" placeholder="interest in %"><br>
+							<input type="text" name="interest_rate" placeholder="interest in %" required><br>
 								
 								<label>Loan Processing Fee</label><br />
-							<input type="text" name="processing_fee" placeholder="Loan Processing fee"><br>
+							<input type="text" name="processing_fee" placeholder="Loan Processing fee" required><br>
 								
 								<label>Loan Period (days)</label><br />
-							<input type="text" name="duration" placeholder="loan duration"><br>
+							<input type="text" name="duration" placeholder="loan duration" required required><br>
 								
 						</div>
 						
@@ -76,7 +76,7 @@
 								<h1>Aggreemet photo</h1>
 								
 								<label>Agreement Photo</label><br />
-						<input type="file" name="aggreement"><br>
+						<input type="file" name="aggreement" required><br>
 								
 						</div>
 						
@@ -85,19 +85,19 @@
 								<h1>Collateral info</h1>
 								
 								<label>Asset Name</label><br />
-						<input type="text" name="asset_name" placeholder="Asset name"><br>
+						<input type="text" name="asset_name" placeholder="Asset name" required><br>
 								
 								<label>Asset description</label><br />
 							
-							<textarea name="description" rows="5" placeholder="describe the conditions of the asse" required></textarea><br />
+							<textarea name="description" rows="5" placeholder="describe the conditions of the asse"></textarea><br />
 							
 							<!--			<input type="text" name="description" placeholder="describe the conditions of the asset"><br>-->
 								
 								<label>Asset Photo</label><br />
-						<input type="file" name="asset_photo"><br>
+						<input type="file" name="asset_photo" required><br>
 								
 								<label>Owner's Proof Photo</label><br />
-							<input type="file" name="proof"><br>
+							<input type="file" name="proof" required><br>
 						
 						</div>
 						
