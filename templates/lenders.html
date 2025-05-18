@@ -17,16 +17,16 @@
 <input type="file" id="profile-photo" name="logo">
             
             <label for="company-name">Company Name</label>
-            <input type="text" id="company-name" name="co_name">
+            <input type="text" id="company-name" name="co_name" required>
 
             <label for="phone-number">Phone Number</label>
-            <input type="tel" id="phone-number" name="tel">
+            <input type="tel" id="phone-number" name="tel" required>
 
             <label for="email">Email</label>
-            <input type="email" id="email" name="email">
+            <input type="email" id="email" name="email" required>
             
             <label for="location">Location</label>
-            <input type="text" id="location" name="location">
+            <input type="text" id="location" name="location" required>
 
             <label for="username">Username</label>
             {% if ex %}
@@ -34,10 +34,10 @@
             <span style="color:red; font-size: 10px;"> Username already taken, try another one! </span> <br />
             {% endif %}
             
-            <input type="text" id="username" name="uname">
+            <input type="text" id="username" name="uname" required>
 
             <label for="password">Password</label>
-            <input type="password" id="inputPw" name="pw">
+            <input type="password" id="inputPw" name="pw" required>
             
             	<span>				<button type="button" onclick="show()" class="toggle"><u>👁 Show Password</u></button></span> <br>
             

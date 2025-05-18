@@ -3,9 +3,21 @@
 {% block content %}
 
 <div class="menuDiv">
-        <div class="logoDiv">
+                
+                
+                {% if lender.logo.url != None %}
+         <div class="logoDiv">
                 <img src="{{ lender.logo.url }}" class="logo">
         </div>
+        {% else %}
+        
+        <div class="logoDiv">
+                <img src="/static/images/logo-placeholder.png" class="logo">
+                
+        </div>
+        
+       
+        {% endif %}
         
         1.<a href="{% url 'app:home' %}">Home</a>
         
