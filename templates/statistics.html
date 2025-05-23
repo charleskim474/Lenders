@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Lenders Statistics</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 90%;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 8px 8px 0 0;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        .company-info {
+            text-align: center;
+            flex-grow: 1;
+        }
+        .company-name {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .menu-container {
+            overflow-x: auto;
+            white-space: nowrap;
+            background: #0056b3;
+            padding: 10px;
+        }
+        .menu {
+            display: inline-flex;
+            gap: 10px;
+        }
+        .menu button {
+            padding: 10px;
+            border: none;
+            background: #ffffff;
+            color: #0056b3;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    
+        .menu button a {
+            text-decoration: none;
+            color: blue;
+        }
+        .menu button:hover {
+            background: #dddddd;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+        }
+        .card h3 {
+            margin-bottom: 10px;
+            color: purple;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        
+        {% if logo.url != None %}
+                <img src="{{ logo.url}}" alt="Company Logo" class="logo">  
+        
+        {% else %}
+        
+        <img src="/static/images/logo-placeholder.png" alt="Company Logo" class="logo">  
+
+        {% endif %}
+        
+        <div class="company-info">
+            <div class="company-name">{{name}}</div>  
+        </div>  
+    </div>
+
+    <div class="menu-container">
+        <div class="menu">
+            <button> <a href="{% url 'app:home' %}">Home</a></button>
+            <button> <a href="{% url 'app:add_borrower' %}">Add Loan</a></button>
+            <button> <a href="{% url 'app:customers' %}">My Customers</a></button>
+            <button> <a href="{% url 'app:loans' %}">Available Loans</a></button>
+            <button> <a href="{% url 'app:repayments' %}">Repayments</a></button>
+            <button> <a href="statistics">Statistics</a></button>
+            <button> <a href="{% url 'app:aggreements' %}">Agreements</a></button>
+            <button> <a href="#profile">Profile</a> </button>
+            
+            <button> <a href="#subscriptions">Subscriptions</a></button>
+            <button> <a href="#report error">Report Error</a></button>
+            
+            <button> <a href="#help">Help</a></button>
+            <button> <a href="#about">About Kimtech</a></button>
+            <button> <a href="{% url 'app:logout' %}">Logout</a></button>
+        </div>
+    </div>
+
+    <div class="stats">
+        <div class="card">
+            <h3>Total Loans Issued</h3>
+            <p>{{total_loans}}</p>
+        </div>
+        <div class="card">
+            <h3>Total Amount Disbursed</h3>
+            <p>{{total_amm}}/=</p>
+        </div>
+        <div class="card">
+            <h3>Total Partialy Paid</h3>
+            <p>{{part_paid}}/= ({{ptPaid_rate|floatformat:2}}%)</p>
+        </div>
+        <div class="card">
+            <h3>Successful Repayments</h3>
+            <p>Loans   :{{success_loans}} ({{rate|floatformat:2}}%) </p>
+            <p>Ammount : {{success_pay}}/= </p>
+        </div>
+        <div class="card">
+            <h3>Unpaid Loan Balance</h3>
+            <p>{{loan_balance}} /= ({{bal_rate|floatformat:2}}%)</p>
+        </div>
+        <div class="card">
+            <h3>Expected Interest</h3>
+            <p>{{exp_interest}} /=</p>
+        </div>
+        <div class="card">
+            <h3>Collected Interest</h3>
+            <p>{{collected_intr}}/= ({{intr_rate|floatformat:2}}%)</p>
+        </div>
+        <div class="card">
+            <h3>Late Fees Expected</h3>
+            <p>Comming Soon</p>
+        </div>
+        <div class="card">
+            <h3>Late Fees Collected</h3>
+            <p>Comming Soon</p>
+        </div>
+    </div>
+
+    <div class="chart-container">
+        <canvas id="loanChart"></canvas>
+        <canvas id="interestChart"></canvas>
+    </div>
+</div>
+
+<script>
+    const loanCtx = document.getElementById('loanChart').getContext('2d');
+    new Chart(loanCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'Loans Issued ($)',
+                data: [400000, 500000, 600000, 700000, 800000],
+                borderColor: '#007bff',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+
+    const interestCtx = document.getElementById('interestChart').getContext('2d');
+    new Chart(interestCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+            datasets: [{
+                label: 'Interest Collected ($)',
+                data: [45000, 55000, 60000, 70000, 80000],
+                borderColor: '#28a745',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    enabled: true
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

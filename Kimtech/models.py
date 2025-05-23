@@ -75,6 +75,6 @@ class Repayment(models.Model):
     loan_id = models.ForeignKey(Loans, on_delete = models.CASCADE, null = True)
     date = models.DateField(auto_now_add = True)
     paid = models.IntegerField(default = 0)
-    bal = models.DecimalField(max_digits = 9, decimal_places = 3)
     percentage_paid = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
+    bal = models.DecimalField(max_digits = 9, decimal_places = 3, default = 0.00)
     time_left = models.IntegerField()

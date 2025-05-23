@@ -7,7 +7,7 @@
                 
                 {% if lender.logo.url != None %}
          <div class="logoDiv">
-                <img src="{{ lender.logo.url }}" class="logo">
+                <img src="{{ lender.logo.url }}" .class="logo">
         </div>
         {% else %}
         
@@ -29,7 +29,7 @@
         
         5.<a href="{% url 'app:repayments' %}">Repayments</a>
         
-        6.<a href="#statistics">Statistics</a>
+        6.<a href="statistics">Statistics</a>
         
         7.<a href="{% url 'app:aggreements' %}">Agreements</a>
         
@@ -102,7 +102,7 @@
         </div>
         <div class="statDiv">
                 
-               <a href="#statistics"><img src="/static/images/statistics-icon.png"></a>
+               <a href="statistics"><img src="/static/images/statistics-icon.png"></a>
         
         </div>
         <div class="hmDiv">

@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from Kimtech.models import *
 from datetime import date, timedelta
 from Kimtech.logic import exp_check
+from .logic import Statistics
 
 # Create your views here.
 
@@ -221,11 +222,15 @@ def repayments(request):
                     loan_id = loan,
                     paid = paid,
                     percentage_paid = percentage_paid,
-                    time_left = time_left.days,
-                    bal = bal
+                    bal = bal,
+                    time_left = time_left.days
                 )
+                #
+                loan = Loans.objects.get(lender_id = lender, borrower_id = borrower)
+                loan.balance = bal
+                loan.save()  # Save the changes to the database
+                
                 print('====> Repayment added for ', loan.borrower_id.name)
-                Loans.objects.filter(lender_id=lender, borrower_id=borrower).update(balance=bal)
                 repayments = Repayment.objects.filter(lender_id = lender)
                 loans = Loans.objects.filter(lender_id = lender)
                 return render(request, 'repayments.html',{'repayments': repayments, 'pay':'pay', 'loans':loans})
@@ -268,3 +273,40 @@ def status(request):
             return render(request, 'index.html', {'msg':'Invalid Username or Password, please try again!'})
         except Borrower.DoesNotExist:
             return render(request, 'index.html', {'msg':'Invalid Username or Password, please try again!'})
+            
+            
+def statistics(request):
+    access = request.session.get('uname', 'deny')
+    if access != 'deny':
+        lender = Lender.objects.get(username = access)
+        if lender.subscription == False:
+            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+        else:
+            stat = Statistics()
+            """try:
+                bal_rate = (100 - ((stat.totalLoanAmount(lender)[1] / stat.totalLoanAmount(lender)[0]) * 100))
+            except ZeroDivisionError:
+                bal_rate = 0"""
+                
+            statistics = {
+                'logo' : lender.logo,
+                'name' : lender.co_name,
+                'total_loans' : stat.getTotalLoans(lender),
+                'total_amm' : stat.totalLoanAmount(lender),
+                'part_paid' : stat.ptPaid(lender)[0],
+                'ptPaid_rate' : stat.ptPaid(lender)[1],
+                'success_loans' : stat.fullPay(lender)[0],
+                'rate' : stat.fullPay(lender)[1],
+                'success_pay' : stat.fullPay(lender)[2],
+                'loan_balance' : stat.unpaid(lender)[0],
+                'bal_rate' : stat.unpaid(lender)[1],
+                'exp_interest' : stat.interest(lender)[0],
+                'collected_intr' : stat.interest(lender)[1],
+                'intr_rate' : stat.interest(lender)[2],
+                #Expected late fees
+                #collected late fees
+                #Graph data
+            }
+            
+            return render(request, 'statistics.html', statistics)
+    return redirect('app:login')

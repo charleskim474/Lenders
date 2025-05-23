@@ -1,38 +1,22 @@
 <!DOCTYPE html>
-
 <html>
 <head>
-		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<meta name="viewport" content="width = device-width, initial-scale = 1.0">
-		<title>Agreements</title>
-		<link rel="stylesheet" href="/static/css/styles3.css">
+    <title>Map Example</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-		
-		<header>
-       <h1>Customers' Loan Agreements</h1>
-    </header>
-				
-				{% if info %}
-				{% for i in info %}
-				<h2>
-						**************************<br>
-						IMG  : <img src="{{i.borrower_id.photo.url}}" style="width: 100px; height: 100px; border-radius: 50px;"><br>
-						Name : {{i.borrower_id.name}}<br>
-						Ln ID: {{i.loan_id.id}} <br>
-						B  ID: {{i.borrower_id.id}}<br>
-						Ag ID: {{i.aggr_id.id}}<br>
-						Asset: {{i.asset_name}}<br>
-						Desc : {{i.description}}<br>
-						Proof: <img src="{{i.proof.url}}" style="width: 100px; height: 100px;"><br>
-						As_Ph : <img src="{{i.asset_photo.url}}" style="width: 100px; height: 100px;"><br>
-						************************************<br>
-								
-								{%endfor%}
-				</h2>
-				{%else%}
-				<h1>No aggreeements found for this company</h1>
-				{%endif%}
-		</h1>
+    <div id="map" style="height: 400px;"></div>
+    <script>
+        var map = L.map('map').setView([0, 0], 2); // Default view
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    
+    navigator.geolocation.getCurrentPosition(function(position) {
+    var lat = position.coords.latitude;
+    var lon = position.coords.longitude;
+    alert("Latitude: " + lat + ", Longitude: " + lon);
+});
+    
+    </script>
 </body>
 </html>
