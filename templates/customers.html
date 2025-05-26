@@ -1,146 +1,319 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
 <head>
-		<meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-		<title>My Customers</title>
-  <link rel="stylesheet" href="/static/css/styles3.css">
-		
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Management Dashboard</title>
+    <style>
+        /* General Styling */
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f4f4; margin: 0; 
+        }
+
+        .container { 
+            width: 90%; 
+            margin: auto; 
+            padding: 15px; 
+            background: white; 
+            border-radius: 8px; 
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+        }
+
+        /* Header */
+        .header { 
+            width: 90%; 
+            margin: auto; 
+            display: flex; 
+            align-items: center; 
+            background: #003366; 
+            color: white; 
+            padding: 15px; 
+        }
+        .logo { 
+            height: 50px; 
+            margin-right: 15px; 
+        }
+        .company-name { 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+
+        /* Menu Bar */
+        .menu-container { 
+            width: 90%; 
+            margin: auto; 
+            overflow-x: auto; 
+            white-space: nowrap; 
+            background: #004080; 
+            padding: 8px; 
+            scrollbar-width: thin; 
+        }
+    
+        .menu-container::-webkit-scrollbar { 
+            height: 8px; 
+        }
+    
+        .menu-container::-webkit-scrollbar-thumb { 
+            background: #003366; 
+            border-radius: 5px; 
+        }
+    
+        .menu-button { 
+            display: inline-block; 
+            background: white; 
+            color: #003366; 
+            padding: 6px 12px; 
+            margin: 5px; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        .menu-button a { 
+            text-decoration: none; 
+            color: blue; 
+        }
+
+        /* Search & Sorting */
+        .search-container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: space-between; 
+            margin-bottom: 12px; gap: 8px; 
+        }
+        .search-box { 
+            flex: 1; 
+            padding: 6px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        .search-btn, .sort-btn, .export-btn { 
+            padding: 6px 12px; 
+            border: none; 
+            cursor: pointer; 
+            background: #003366; 
+            color: white; 
+            border-radius: 4px; 
+        }
+        .search-btn:hover, .sort-btn:hover, .export-btn:hover { 
+            background: #004080; 
+        }
+        
+        /* Sorting Dropdown */
+        .sort-container { 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .sort-dropdown { 
+            padding: 6px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+
+        /* Table Scroll */
+        .table-container { 
+            width: 90%; 
+            margin: auto; 
+            overflow-x: auto; 
+            padding-bottom: 8px; 
+            border-bottom: 3px solid #ccc; 
+            scrollbar-width: thin; }
+        .table-container::-webkit-scrollbar { 
+            height: 8px; 
+        }
+        .table-container::-webkit-scrollbar-thumb { 
+            background: #003366; 
+            border-radius: 5px; 
+        }
+        table { 
+            min-width: 1200px; 
+            border-collapse: collapse; 
+            background: white; }
+        th, td { 
+            padding: 10px; 
+            text-align: left; 
+            border-bottom: 1px solid #ddd; 
+        }
+        th { 
+            background-color: #003366; 
+            color: white; 
+            cursor: pointer; 
+        }
+    
+         .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+    
+        th:hover { 
+            background-color: #004080; 
+        }
+        tr:hover { 
+            background-color: #f2f2f2; 
+        }
+    </style>
 </head>
-
 <body>
-		
-		
-		<h1>
-				My Customers' Details.
-		</h1>
-  {% if loan %}
-		
-		<input type="text" name="search" placeholder="Search customer here"> <button type="button">Search</button>
-		
-				<div class="table-content">
-				
-		<table class="table" id="myTable">
-				<tr>
-						<th>Photo</th>
-				<th> Loan date</th>
-				<th>ID</th>
-				<th>Loan ID</th>
-				<th>Name</th>
-				<th>Phone</th>
-				<th>Email</th>
-				<th>Residence</th>
-				<th>NIN</th>
-				<th>Password</th>
-				<th>Loan Balance</th>
-				<th>Expiry</th>
-				</tr>
-				 {% for l in loan %}
-				<tr>
-						
-						<td>
-                        <img src="{{l.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic">
-						</td>
-				
-				  
-  <td>{{l.loan_Date}}</td>
-						
-						<td>{{l.borrower_id.id}}</td>
-				  
-						<td> {{l.id}} </td>
-				  
-									<td>{{l.borrower_id.name}}</td>
-				  
-				 		<td><a href="tel:{{l.borrower_id.tel}}">{{l.borrower_id.tel}}</a> </td>
-				  
-								<td> <a href="mailto:{{l.borrower_id.email}}">{{l.borrower_id.email}} </a> </td>
-								<td> {{l.borrower_id.location}} </td>
-								<td> {{l.borrower_id.NIN}} </td>
-								<td> {{l.borrower_id.pin}} </td>
-				  <td>{{l.balance}}</td>
-				  <td id="days">{{l.last_date}}</td>
-				</tr> 
-		{%endfor%}
-		</table>
-		<!--		</div>-->
-  {%else%}
-  <h1>No Customer(s) found</h1>
-  {%endif%}
-						
-						
-						<div id="modal" onclick ="closeImage()">
-             <img id="fullImage" src="">
-   </div>
-						
-		
-		<div class="short">
-        
-        <div class="addDiv">
-                
-              <a href="{% url 'app:add_borrower' %}"> <img src="/static/images/add-loan.jpeg"> </a>
-                
-        </div>
-        <div class="repayDiv">
-                
-              <a href="{% url 'app:repayments' %}"> <img src="/static/images/repayment-icon.png"></a>
-                
-        </div>
-        <div class="statDiv">
-                
-               <a href="statistics"><img src="/static/images/statistics-icon.png"></a>
-        
-        </div>
-        <div class="hmDiv">
-                
-                <a href="{% url 'app:home' %}"><img src="/static/images/home-icon.png"></a>
 
-        </div>
-        
+<div class="header">
+    {% if lender.logo.url != None %}
+        <img src="{{ lender.logo.url }}" alt="Company Logo" class="logo">
+    {% else %}
+        <img src="/static/images/logo-placeholder.png" alt="Company Logo" class="logo">
+    {% endif %}
+    <span class="company-name">{{ lender.co_name }}</span>
 </div>
-		
-		
-		   <br>
-    <br>
-    <br>
-    <br>
-						  <br>
-    <br>
-    <br>
-    <br>
-		
-				<script src="/static/js/script.js"></script>
-	<script src="static/js/script2.js" defer></script>
-		
-		<script>
-						
-						alert("This is is a test version, If you click on a certain feature and it does not respond, just know it is still under development.  Thank you.");
+
+<div class="header">
+    <span>Registered Customers</span>
+</div>
+
+<div class="menu-container">
+    <span class="menu-button"><a href="{% url 'app:home' %}">Home</a></span>
+    <span class="menu-button"><a href="{% url 'app:add_borrower' %}">Add Loan</a></span>
+    <span class="menu-button"><a href="{% url 'app:customers' %}">My Customers</a></span>
+    <span class="menu-button"><a href="{% url 'app:loans' %}">Available Loans</a></span>
+    <span class="menu-button"><a href="{% url 'app:repayments' %}">Repayments</a></span>
+    <span class="menu-button"><a href="statistics">Statistics</a></span>
+    <span class="menu-button"><a href="{% url 'app:aggreements' %}">Agreements</a></span>
+    <span class="menu-button"><a href="{% url 'app:logout' %}">Logout</a></span>
+</div>
+
+<div class="container">
+    {% if loan %}
+    <div class="search-container">
+        <input type="text" class="search-box" id="searchInput" onkeyup="searchTable()" placeholder="Search loans...">
+        
+        <div id="suggestions" style="position: absolute; background: white; border: 1px solid #ddd; max-height: 200px; overflow-y: auto;"></div>
+        <button class="search-btn" onclick="searchTable()">Search</button>
+    </div>
+        
+        <button class="search-btn" onclick="searchTable()">Search</button>
+        <button class="export-btn" onclick="exportCSV()">Export Data</button>
+        
+        <div class="sort-container">
+            <select id="sortDropdown" class="sort-dropdown" onchange="sortTable()">
+                <option value="1">Loan date</option>
+                <option value="2">ID</option>
+                <option value="3">Loan ID</option>
+                <option value="4">Name</option>
+                <option value="5">Loan balance</option>
+                <option value="6">Expiry</option>
+            </select>
+            
+            <button class="sort-btn" onclick="toggleSortOrder()">Change Order</button>
+        </div>
+        
+    </div>
+
+    <div class="table-container">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Loan date</th>
+                    <th>ID</th>
+                    <th>Loan ID</th>
+                    <th>Name</th>
+                    <th>Loan Balance</th>
+                    <th>Expiry</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for l in loan %}
+                <tr>
+                    <td><img src="{{ l.borrower_id.photo.url }}" alt="Thumbnail" width="100" class="profile-pic"></td>
+                    <td>{{ l.loan_Date }}</td>
+                    <td>{{ l.borrower_id.id }}</td>
+                    <td>{{ l.id }}</td>
+                    <td>{{ l.borrower_id.name }}</td>
+                    <td>{{ l.balance }}</td>
+                    <td>{{ l.last_date }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p>Your customers will appear here</p>
+    {% endif %}
+</div>
 
 
-		let table = document.getElementById("myTable");
-let rows = table.getElementsByTagName("tr");
+<script>
+    let sortOrderAsc = true;
 
-for(let i = 0; i<rows.length; i++){
-    if(i%2 == 0){
-        rows[i].style.backgroundColor = 'lightgray';
-    } else{
-        rows[i].style.backgroundColor = 'lightblue';
+    function searchTable() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let table = document.getElementById("dataTable");
+    let rows = table.getElementsByTagName("tr");
+    let suggestionsBox = document.getElementById("suggestions");
+    suggestionsBox.innerHTML = ""; 
+
+    let suggestions = [];
+
+    for (let i = 1; i < rows.length; i++) {
+        let cells = rows[i].getElementsByTagName("td");
+        let matchFound = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            let cellText = cells[j].innerText.toLowerCase();
+            if (cellText.includes(input)) {
+                matchFound = true;
+                if (!suggestions.includes(cells[j].innerText)) { 
+                    suggestions.push(cells[j].innerText);
+                }
+            }
+        }
+        rows[i].style.display = matchFound ? "" : "none";
+    }
+
+    if (input.length > 0) {
+        suggestions.forEach(suggestion => {
+            let div = document.createElement("div");
+            div.innerHTML = suggestion;
+            div.style.padding = "5px";
+            div.style.cursor = "pointer";
+            div.onclick = function() {
+                document.getElementById("searchInput").value = suggestion;
+                searchTable();
+                suggestionsBox.innerHTML = "";
+            };
+            suggestionsBox.appendChild(div);
+        });
     }
 }
-		
-		
-		function openImage(imageElement){
-            document.getElementById("fullImage").src = imageElement.src;
-            document.getElementById("modal").style.display = "flex";
-            console.log("opened");
-        }
-            
-            
-            function closeImage(){
-                document.getElementById("modal").style.display = "none";
-                console.log("closed");
-            }
-		
-		
+
+    function sortTable() {
+        let table = document.getElementById("dataTable");
+        let columnIndex = document.getElementById("sortDropdown").value;
+        let rows = Array.from(table.rows).slice(1);
+        rows.sort((a, b) => {
+            let valA = a.cells[columnIndex].innerText.toLowerCase();
+            let valB = b.cells[columnIndex].innerText.toLowerCase();
+            return sortOrderAsc ? valA.localeCompare(valB, undefined, { numeric: true }) : valB.localeCompare(valA, undefined, { numeric: true });
+        });
+        rows.forEach(row => table.appendChild(row));
+    }
+
+    function toggleSortOrder() {
+        sortOrderAsc = !sortOrderAsc;
+        sortTable();
+    }
+
+    function exportCSV() {
+        let table = document.getElementById("dataTable");
+        let rows = Array.from(table.rows);
+        let csvContent = rows.map(row => Array.from(row.cells).map(cell => `"${cell.innerText}"`).join(",")).join("\n");
+        let blob = new Blob([csvContent], { type: "text/csv" });
+        let a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = "loan_data.csv";
+        a.click();
+    }
 </script>
+
 </body>
 </html>

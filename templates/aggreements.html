@@ -1,91 +1,176 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="CONTENT-TYPE" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agreements</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <link rel="stylesheet" href="/static/css/styles3.css">
+  <meta charset="UTF-8">
+  <title>Borrower Info</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f8f9fa;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 3px 5px 10px rgba(0,0,0,0.5);
+    }
+  
+     /* Header */
+        .header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            color: white;
+            border-radius: 8px;
+        }
+        .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+        .company-name {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .menu-container {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 10px;
+            background: #2575fc;
+            border-radius: 8px;
+        }
+        .menu-button {
+            display: inline-block;
+            background: white;
+            color: #003366;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+    
+        .menu-button a {
+            text-decoration: none;
+            color: blue;
+        }
+
+        .menu-button:hover {
+            background: #f2f2f2;
+        }
+  
+  
+    h2 {
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Customers' Loan Agreements</h1>
-    </header>
+  
+  <div class="header">
+            {% if lender.logo.url != None %}
+             <img src="{{lender.logo.url}}" alt="Company Logo" class="logo">
+        {% else %}
+             <img src="/static/images/logo-placeholder.png" alt="Company Logo" class="logo">
+        {% endif %}
+            <span class="company-name">{{lender.co_name}}</span>
+        </div>
 
+        <div class="menu-container">
+            <span class="menu-button"><a href="{% url 'app:home' %}">Home</a></span>
+            <span class="menu-button"><a href="{% url 'app:add_borrower' %}">Add Loan</a></span>
+            <span class="menu-button"><a href="{% url 'app:customers' %}">My Customers</a></span>
+            <span class="menu-button"><a href="{% url 'app:loans' %}">Available Loans</a></span>
+            <span class="menu-button"><a href="{% url 'app:repayments' %}">Repayments</a></span>
+            <span class="menu-button"><a href="statistics">Statistics</a></span>
+            <span class="menu-button"><a href="{% url 'app:aggreements' %}">Agreements</a></span>
+            <span class="menu-button"><a href="#profile">Profile</a></span>
+            <span class="menu-button"><a href="#subscriptions">Subscriptions</a></span>
+            <span class="menu-button"><a href="#report error">Report Error</a></span>
+            <span class="menu-button"><a href="#help">Help</a></span>
+            <span class="menu-button"><a href="#about">About Kimtech</a></span>
+            <span class="menu-button"><a href="{% url 'app:logout' %}">Logout</a></span>
+        </div>
+  
+    
     {% if info %}
         {% for i in info %}
-            <div class="agreements">
-                
-                <img src="{{i.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic"><br>
-                <hr>
-                <span class="titles">Name:</span> {{ i.borrower_id.name }}<br>
-                <hr>
-                <span class="titles">Loan ID:</span> {{ i.loan_id.id }}<br>
-                <hr>
-                <span class="titles">Agreement ID:</span> {{ i.aggr_id.id }}<br>
-                <hr>
-                <span class="titles">Asset Name:</span> {{ i.asset_name }}<br>
-                <hr>
-                <span class="titles">Description of Asset (conditions)</span><br><br>
-                {{ i.description }}<br>
-                <hr>
-                <span class="titles">Ownership Proof</span><br>
-                <img src="{{ i.proof.url }}" alt="Thumbnail" onclick="openImage(this)" width="100"><br>
-                <hr>
-                <span class="titles">Asset Photo</span><br>
-                <img src="{{ i.asset_photo.url }}" alt="Thumbnail" onclick="openImage(this)" width="100"> <br>
-            </div>
-        {% endfor %}
-    {% else %}
-        <h1>No agreements found for this company</h1>
+          <div class="container" id="borrower-info">
+           <h2>Borrower Bio Data</h2>
+           <div class="section">
+             <img src="{{i.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic">
+             <p><strong>Name:</strong> {{ i.borrower_id.name }}</p>
+             <p><strong>Loan ID:</strong>{{ i.loan_id.id }}</p>
+             
+             <h2>Agreement</h2>
+             
+      <p><strong>Agreement ID:</strong> {{ i.aggr_id.id }}</p>
+             
+             <h2>Collateral</h2>
+             
+      <p><strong>Asset Name:</strong> {{ i.asset_name }}</p>
+             <p><strong>Description : </strong> {{ i.description }}</p>   
+             <p><strong>Ownership Proof</strong><img src="{{ i.proof.url }}" alt="Thumbnail" onclick="openImage(this)" width="100"></p>
+             <p><strong>Asset Photo</strong><img src="{{ i.asset_photo.url }}" alt="Thumbnail" onclick="openImage(this)" width="100"></p>
+             
+             <button onclick="downloadPDF()">Download PDF</button>
+    </div>
+          {% endfor %}
+          {% else %}
+        <p>Borrowers' agreements and collateral information will appear here. <br> Thsnk you for choosing kimtech Ug </p>
     {% endif %}
 
     <div id="modal" onclick ="closeImage()">
              <img id="fullImage" src="">
          </div>
-
-    <div class="short">
-        <div class="addDiv">
-            <a href="{% url 'app:add_borrower' %}">
-                <img src="/static/images/add-loan.jpeg">
-            </a>
-        </div>
-        <div class="repayDiv">
-            <a href="{% url 'app:repayments' %}">
-                <img src="/static/images/repayment-icon.png">
-            </a>
-        </div>
-        <div class="statDiv">
-            <a href="statistics"><img src="/static/images/statistics-icon.png"></a>
-        </div>
-        <div class="hmDiv">
-            <a href="{% url 'app:home' %}">
-                <img src="/static/images/home-icon.png">
-            </a>
-        </div>
-    </div>
     
-    <br>
-    <br>
-    <br>
-    <br>
-    <script src="/static/js/script2.js"></script>
-    <script>
-    
-    alert("This is is a test version, If you click on a certain feature and it does not respond, just know it is still under development.  Thank you.");
+  </div>
 
-
-        function openImage(imageElement){
-            document.getElementById("fullImage").src = imageElement.src;
-            document.getElementById("modal").style.display = "flex";
-            console.log("opened");
-        }
-            
-            
-            function closeImage(){
-                document.getElementById("modal").style.display = "none";
-                console.log("closed");
-            }
-    </script>
+  <!-- html2pdf.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
+    function downloadPDF() {
+      const element = document.getElementById('borrower-info');
+      const opt = {
+        margin: 0.5,
+        filename: 'borrower-info.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
 </body>
 </html>

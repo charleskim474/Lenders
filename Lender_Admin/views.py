@@ -175,7 +175,7 @@ def customers(request):
             print('===>', access)#....
             today = date.today()
            # today = today.days
-            return render(request, 'customers.html', {'loan':loan, 'today': today })
+            return render(request, 'customers.html', {'loan':loan, 'today': today, 'lender': lender })
     return redirect('app:login')
 
 
@@ -192,7 +192,7 @@ def loans(request):
             loans = Loans.objects.filter(lender_id = lender_id)
             print('===>', access)#...
             today = date.today()
-            return render(request,'loans.html', {'loans': loans, 'today':today})
+            return render(request,'loans.html', {'loans': loans, 'lender': lender, 'today':today})
     return redirect('app:login')
 
 
@@ -233,10 +233,10 @@ def repayments(request):
                 print('====> Repayment added for ', loan.borrower_id.name)
                 repayments = Repayment.objects.filter(lender_id = lender)
                 loans = Loans.objects.filter(lender_id = lender)
-                return render(request, 'repayments.html',{'repayments': repayments, 'pay':'pay', 'loans':loans})
+                return render(request, 'repayments.html',{'repayments': repayments, 'pay':'pay', 'loans':loans, 'lender': lender})
             repayments = Repayment.objects.filter(lender_id = lender)
             loans = Loans.objects.filter(lender_id = lender)
-            return render(request, 'repayments.html',{'repayments': repayments, 'pay':'pay', 'loans':loans})# loans provide drop down list
+            return render(request, 'repayments.html',{'repayments': repayments, 'pay':'pay', 'loans':loans, 'lender': lender})# loans provide drop down list
     return redirect('app:login')
     
 #Aggreements & collateral information
@@ -250,7 +250,7 @@ def aggreements(request):
         else:
             #use collateral model to get all required information
             collateral = Collateral.objects.filter(lender_id = lender)
-            return render(request, 'aggreements.html', {'info': collateral})
+            return render(request, 'aggreements.html', {'info': collateral, 'lender': lender})
     return redirect('app:login')
 
 
