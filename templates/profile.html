@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Company Profile</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f1f2f6;
+      margin: 0;
+      padding: 20px;
+    }
+    .profile-card, .form-card {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+    }
+    .logo { 
+            height: 100px; 
+            margin-right: 15px; 
+            border-radius: 100%;
+        }
+  
+        .home-button { 
+            display: inline-block; 
+            background: white; 
+            color: #003366; 
+            padding: 6px 12px; 
+            margin: 5px; 
+            border-radius: 5px; 
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            font-weight: bold;
+        }
+        .home-button a { 
+            text-decoration: none; 
+            color: blue; 
+        }
+  
+        .company-name { 
+            font-size: 18px; 
+            font-weight: bold; 
+        }
+    .header h2 {
+      margin: 5px 0;
+    }
+    .profile-info p {
+      margin: 8px 0;
+      color: #555;
+    }
+    .status {
+      font-weight: bold;
+      color: green;
+    }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #0984e3;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background: #74b9ff;
+    }
+
+    .form-card {
+      display: none;
+      margin-top: 30px;
+    }
+
+    form label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 5px;
+      font-weight: 500;
+    }
+
+    form input, form select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .form-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 25px;
+    }
+
+    .form-buttons .btn {
+      flex: 1;
+      margin: 0 5px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="profile-card" id="profileView">
+  <div class="header">
+    {% if lender.logo.url != None %}
+        <img src="{{ lender.logo.url }}" alt="Company Logo" class="logo">
+    {% else %}
+        <img src="/static/images/logo-placeholder.png" alt="Company Logo" class="logo">
+    {% endif %}
+    <span class="home-button"><a href="{% url 'app:home' %}">Home</a></span>
+    <p class="company-name">{{ lender.co_name }}</p>
+
+    <p><strong>ID :</strong>{{ lender.id }}</p>
+  </div>
+  <div class="profile-info">
+    <p><strong>Username:</strong> {{ lender.username }}</p>
+    <p><strong>Email:</strong> {{ lender.email }}</p>
+    <p><strong>Phone:</strong> {{ lender.tel }}</p>
+    <p><strong>Location:</strong> {{ lender.location }}</p>
+    <p><strong>Subscription:</strong> <span class="status">{{ lender.subscription }}</span> ({{ lender.time_left }} days remaining)</p>
+    <p><strong>Expiry Date:</strong> {{ lender.expiry }}</p>
+  </div>
+  <button class="btn" onclick="toggleForm()">Update Profile</button>
+</div>
+
+<div class="form-card" id="profileForm">
+  <strong>Update Only Desired</strong>
+  	<form action="{% url 'app:profile' %}" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+    <label for="name">Company Name</label>
+    <input type="text" id="name" value="{{ lender.co_name }}" name="co_name">
+
+    <label for="phone">Phone</label>
+    <input type="text" id="phone" value="{{ lender.tel }}" name="tel">
+
+    <label for="email">Email</label>
+    <input type="email" id="email" value="{{ lender.email }}" name="email">
+
+    <label for="location">Location</label>
+    <input type="text" id="location" value="{{ lender.location }}" name="location">
+
+    <div class="form-buttons">
+      <button type="button" class="btn" onclick="toggleForm()">Close</button>
+      <button type="submit" class="btn">Save</button>
+    </div>
+  </form>
+</div>
+
+<script>
+  function toggleForm() {
+    const form = document.getElementById("profileForm");
+    form.style.display = form.style.display === "none" || form.style.display === "" ? "block" : "none";
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>

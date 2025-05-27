@@ -13,5 +13,7 @@ urlpatterns = [
     path('aggreements', views.aggreements, name = 'aggreements'),
     path('status', views.status, name = 'status'),
     path('home', views.home, name = 'home'),
-    path('statistics', views.statistics, name = 'statistics')
+    path('statistics', views.statistics, name = 'statistics'),
+    path('profile', views.profile, name = 'profile'),
+    path('report_error', views.report_error, name = 'report_error'),
 ]

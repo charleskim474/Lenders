@@ -1,10 +1,12 @@
 #Lenders Admin Views
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.conf import settings
 from Kimtech.models import *
 from datetime import date, timedelta
 from Kimtech.logic import exp_check
-from .logic import Statistics
+from .logic import *
 
 # Create your views here.
 
@@ -283,11 +285,6 @@ def statistics(request):
             return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
         else:
             stat = Statistics()
-            """try:
-                bal_rate = (100 - ((stat.totalLoanAmount(lender)[1] / stat.totalLoanAmount(lender)[0]) * 100))
-            except ZeroDivisionError:
-                bal_rate = 0"""
-                
             statistics = {
                 'logo' : lender.logo,
                 'name' : lender.co_name,
@@ -310,3 +307,57 @@ def statistics(request):
             
             return render(request, 'statistics.html', statistics)
     return redirect('app:login')
+    
+    
+def profile(request):
+    access = request.session.get('uname', 'deny')
+    if access != 'deny':
+        lender = Lender.objects.get(username = access)
+        if lender.subscription == False:
+            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+        else:
+            if request.method == 'POST':
+                name = request.POST.get('co_name')
+                tel = request.POST.get('tel')
+                email = request.POST.get('email')
+                location = request.POST.get('location')
+                
+                lender.co_name = name
+                lender.tel = tel
+                lender.email = email
+                lender.location = location
+                lender.save() 
+            lender = Lender.objects.get(username = access)
+            print('====> Updated to  ', lender)
+            return render(request, 'profile.html', {'lender': lender} )
+    return redirect('app:login')
+    
+    
+def report_error(request):
+    user = request.session.get('uname', 'deny')
+    try:
+        lender = Lender.objects.get(username = user)
+    except Lender.DoesNotExist:
+        print('Unknown Lender Submitting Error message')
+        lender = UnkownUser()
+        
+    message = ''
+    if request.method == 'POST':
+        error_message = request.POST.get('error', '').strip()
+        if error_message:
+            send_mail(
+                subject = f'Error Report from {lender.co_name} U-Name: {lender.username}   User ID {lender.id}',
+                message=error_message,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[
+                    'ugkimtech@gmail.com',
+                    'charleskim474@gmail.com'
+                ],
+                fail_silently=False,
+            )
+            print('reported')
+            msg = "Your error report has been sent. Thank you!"
+            return render(request, 'report.html', {'msg': msg, 'lender' : lender})
+    return render(request, 'report.html', { 'lender' : lender})
+    
+            

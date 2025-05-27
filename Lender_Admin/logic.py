@@ -72,3 +72,10 @@ class Statistics:
         except ZeroDivisionError:
             rate = 0
         return [exp_intr, interest, rate]
+        
+        
+# Give chance to send error msg without login.
+class UnkownUser:
+    id = '< Not Registered >'
+    co_name = '< Not Registered >'
+    username = '< Not Registered >'

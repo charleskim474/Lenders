@@ -127,13 +127,13 @@
             <button> <a href="{% url 'app:repayments' %}">Repayments</a></button>
             <button> <a href="statistics">Statistics</a></button>
             <button> <a href="{% url 'app:aggreements' %}">Agreements</a></button>
-            <button> <a href="#profile">Profile</a> </button>
+            <button> <a href="{% url 'app:profile' %}">Profile</a> </button>
             
             <button> <a href="#subscriptions">Subscriptions</a></button>
-            <button> <a href="#report error">Report Error</a></button>
+            <button> <a href="{% url 'app:report_error' %}">Report Error</a></button>
             
-            <button> <a href="#help">Help</a></button>
-            <button> <a href="#about">About Kimtech</a></button>
+            <button> <a href="https://wa.me/256706749801?text=Hello Kimtech, I wannt you to help me with...">Help</a></button>
+            <button> <a href="https://kimtech.pythonanywhere.com">About Kimtech</a></button>
             <button> <a href="{% url 'app:logout' %}">Logout</a></button>
         </div>
     </div>
@@ -174,17 +174,20 @@
         </div>
         <div class="card">
             <h3>Late Fees Collected</h3>
-            <p>Comming Soon</p>
+            <p>Feature Comming Soon</p>
         </div>
     </div>
 
+    
+    <!--
     <div class="chart-container">
         <canvas id="loanChart"></canvas>
         <canvas id="interestChart"></canvas>
     </div>
 </div>
-
+-->
 <script>
+    /*
     const loanCtx = document.getElementById('loanChart').getContext('2d');
     new Chart(loanCtx, {
         type: 'line',
@@ -228,6 +231,8 @@
             }
         }
     });
+    
+    */
 </script>
 
 </body>
