@@ -28,8 +28,14 @@ class Borrower(models.Model):
     email = models.EmailField()
     location = models.CharField(max_length = 100)
     NIN = models.CharField(max_length = 20)
-    pin = models.CharField(max_length = 10)
-    photo = models.ImageField(upload_to = 'images/', default = '/static/images/icon.png')
+    pin = models.CharField(max_length = 20)
+    photo = models.ImageField(upload_to = 'images/', default = '/static/images/blankPerson.jpeg')
+    chair = models.CharField(max_length = 20, default = 'Not Added')
+    chairTel  = models.CharField(max_length = 20, default = 'Not Added')
+    nextOfKin = models.CharField(max_length = 20, default = 'Not Added')
+    nextOfKinTel  = models.CharField(max_length = 20, default = 'Not Added')
+    buz = models.CharField(max_length = 20, default = 'Not Added')
+    buzloc = models.CharField(max_length = 20, default = 'Not Added')
     
 #Loans information
 
@@ -44,6 +50,12 @@ class Loans(models.Model):
     duration = models.IntegerField()
     last_date = models.DateField()
     balance = models.DecimalField(max_digits = 20, decimal_places = 3)
+    comments = models.TextField(default = 'Not Added')
+    startDate = models.DateField(auto_now_add = True)
+    penalty = models.IntegerField(default = 0)
+    effectDay = models.IntegerField(default = 0)
+    dailyPay = models.IntegerField(default = 0)
+    penaltyAmountAdded = models.DecimalField(max_digits = 9, decimal_places = 3, default = 0.00)
     
     
 #Aggreement

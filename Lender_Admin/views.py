@@ -38,6 +38,7 @@ def login(request):
 
 
 def home(request):
+    exp_check()
     access = request.session.get('uname', 'deny')
     if access != 'deny':
         row = Lender.objects.get(username = access)
@@ -62,105 +63,69 @@ def add_borrower(request):
     if access != 'deny':
         print('===>Loged in with ',access)
         if request.method == 'POST':
-            try:
-                lender = Lender.objects.get(username = access)
-                
-            #ADDING BORROWER
+            lender = Lender.objects.get(username = access)
+            save = NewLoan(access)
             
-                name = request.POST.get('name')
-                tel = request.POST.get('tel')
-                email = request.POST.get('email')
-                location = request.POST.get('location')
-                NIN = request.POST.get('NIN')
-                try:
-                    NINcheck = Borrower.objects.get(lender_id = lender, NIN = NIN)
-                    if NINcheck.NIN == NIN:
-                        print('===>>Identical NIN found')
-                        return render(request, 'new_borrower.html', {'NINerr':'NIN already used In this Company!'})
-                except Borrower.DoesNotExist:
-                    print('===>>No Identical NIN found')
-                pin = request.POST['pin']
-                photo = request.FILES['photo']
-                Borrower.objects.create(
-                    lender_id = lender,
-                    name = name,
-                    tel = tel,
-                    email = email,
-                    location = location,
-                    NIN = NIN,
-                    pin = pin,
-                    photo = photo
-                )
-                print('\n\n===>added borrower\n\n', name)
-                borrower = Borrower.objects.get(lender_id = lender, NIN = NIN)
-                
-                #ADD A  LOAN FOR THE BORROWER
-                
+            #Borrower details
+            name = request.POST.get('name')
+            tel = request.POST.get('tel')
+            email = request.POST.get('email')
+            location = request.POST.get('location')
+            chair = request.POST.get('chair')
+            chairTel = request.POST.get('chairTel')
+            nextOfKin = request.POST.get('nextOfKin')
+            nextOfKinTel = request.POST.get('nextOfKinTel')
+            buz = request.POST.get('buz')
+            buzloc = request.POST.get('buzloc')
+            pin = request.POST.get('pin')
+            photo = request.FILES.get('photo', '/static/images/blankPerson.jpeg')
+            NIN = request.POST.get('NIN')
+            try:
+                NINcheck = Borrower.objects.get(lender_id = lender, NIN = NIN)
+                if NINcheck.NIN == NIN:
+                    print('===>>Identical NIN found')
+                    return render(request, 'new_borrower.html', {'NINerr':'NIN already used In this Company!'})
+            except Borrower.DoesNotExist:
+                print('===>>No Identical NIN found')
+            
+            if save.borrowerInfo(name, NIN, tel, email, location, pin, photo, chair,chairTel, nextOfKin, nextOfKinTel, buz, buzloc):
+                #Loan Details
                 loan_amount = request.POST.get('loan_amount')
                 interest_rate = request.POST.get('interest_rate')
                 processing_fee = request.POST.get('processing_fee')
                 duration = request.POST.get('duration')
-         ##########       
-                last_date = date.today() + timedelta(days = int(duration))
-                total_amm = int(loan_amount) + int(processing_fee) + ( (float(interest_rate)/100) * int(loan_amount))
-         ############       
-                Loans.objects.create(
-                    lender_id = lender,
-                    borrower_id = borrower,
-                    loan_amount = loan_amount,
-                    interest_rate = interest_rate,
-                    processing_fee = processing_fee,
-                    total_amm = total_amm,
-                    duration = duration,
-                    last_date = last_date,
-                    balance = total_amm
-                )
-                print('\n\n===>added loan for\n\n', name)
-                loan = Loans.objects.get(lender_id = lender, borrower_id = borrower)
-                
-         #ADDING AN Aggreement TO A LOAN
-         
-                aggreement = request.FILES.get('aggreement')
-         ############
-                Aggreements.objects.create(
-                    lender_id = lender,
-                    borrower_id = borrower,
-                    loan_id = loan,
-                    aggreement = aggreement
-                )
-                print('\n\n===>added agreement for\n\n', name)
-                aggreement = Aggreements.objects.get(lender_id = lender, borrower_id = borrower)
-                
-         #ADDING COLLATERAL INFO
-                
-                asset_name = request.POST.get('asset_name')
-                description = request.POST.get('description')
-                proof = request.FILES.get('proof')
-                asset_photo = request.FILES.get('asset_photo')
-        #############        
-                Collateral.objects.create(
-                    lender_id = lender,
-                    borrower_id = borrower,
-                    loan_id = loan,
-                    aggr_id = aggreement,
-                    asset_name = asset_name,
-                    description = description,
-                    proof = proof,
-                    asset_photo = asset_photo
-                )
-                print('\n\n===>added Collateral info for\n\n', name)
-                return redirect('app:loans')
-                #return redirect('app:dashboard')
-            except Exception:
-                try:
-                    Borrower.objects.get(lender_id = lender, NIN = NIN).delete()
-                    print('\n\n===>Borrower info deleted \n\n', name)
-                except Borrower.DoesNotExist:
-                    print('\n\n===>error \n\n', name)
-                return render(request, 'new_borrower.html', {'msg': 'Error occured during form handling!, check for errors & save again. '})
-                #return ErrorPage
-        return render(request, 'new_borrower.html')
-    return redirect('app:login')
+                startDate = request.POST.get('date')
+                comments = request.POST.get('comments')
+                penalty = request.POST.get('penalty')
+                effectDay = request.POST.get('effectDay')
+                dailyPay = request.POST.get('dailyPay')
+                nin = NIN# for extracting borrower info
+                if save.loanInfo(nin, loan_amount, interest_rate, processing_fee, duration, startDate, comments, penalty, effectDay, dailyPay):
+                    #Agreement
+                    aggreement = request.FILES.get('aggreement', '/static/images/blankPerson.jpeg')
+                    if save.agreementInfo(nin, aggreement):
+                        #Collateral
+                        asset_name = request.POST.get('asset_name')
+                        description = request.POST.get('description')
+                        proof = request.FILES.get('proof')
+                        asset_photo = request.FILES.get('asset_photo')
+                        if save.collateralInfo(nin, asset_name, description, proof, asset_photo):
+                            #when everything is added successfuly
+                            return redirect('app:loans')
+                        else:
+                            return render(request, 'new_borrower.html', {'msg': 'Error occured in Collateral Information check for mistakes and try again. '})
+                    else:
+                        return render(request, 'new_borrower.html', {'msg': 'Error occured in Agreement Information check for mistakes and try again. '})
+                else:
+                    return render(request, 'new_borrower.html', {'msg': 'Error occured in Loan Information check for mistakes and try again. '})
+            else:
+                return render(request, 'new_borrower.html', {'msg': 'Error occured in Borrower Information check for mistakes and try again. '})
+        else:
+            lender = Lender.objects.get(username = access)
+            return render(request, 'new_borrower.html', {'lender' : lender } )
+    else:
+        return redirect('app:login')
+        
 
 #VIEW BORROWERS (Lender based after login) WITH ALL LOANS
 
@@ -300,7 +265,7 @@ def statistics(request):
                 'exp_interest' : stat.interest(lender)[0],
                 'collected_intr' : stat.interest(lender)[1],
                 'intr_rate' : stat.interest(lender)[2],
-                #Expected late fees
+                'penalty' : stat.penalty(lender)
                 #collected late fees
                 #Graph data
             }
@@ -345,19 +310,22 @@ def report_error(request):
     if request.method == 'POST':
         error_message = request.POST.get('error', '').strip()
         if error_message:
-            send_mail(
-                subject = f'Error Report from {lender.co_name} U-Name: {lender.username}   User ID {lender.id}',
-                message=error_message,
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[
-                    'ugkimtech@gmail.com',
-                    'charleskim474@gmail.com'
-                ],
-                fail_silently=False,
-            )
-            print('reported')
-            msg = "Your error report has been sent. Thank you!"
-            return render(request, 'report.html', {'msg': msg, 'lender' : lender})
+            try:
+                send_mail(
+                    subject = f'Error Report from {lender.co_name} U-Name: {lender.username}   User ID {lender.id}',
+                    message=error_message,
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    recipient_list=[
+                        'ugkimtech@gmail.com',
+                        'charleskim474@gmail.com'
+                    ],
+                    fail_silently=False,
+                )
+                print('reported')
+                msg = "Your error report has been sent. Thank you!"
+                return render(request, 'report.html', {'msg': msg, 'lender' : lender})
+            except Exception:
+                return render(request, 'report.html', { 'lender' : lender, 'msg' : 'No Network Connection!'})
     return render(request, 'report.html', { 'lender' : lender})
     
             
