@@ -266,7 +266,6 @@ def statistics(request):
                 'collected_intr' : stat.interest(lender)[1],
                 'intr_rate' : stat.interest(lender)[2],
                 'penalty' : stat.penalty(lender)
-                #collected late fees
                 #Graph data
             }
             
