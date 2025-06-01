@@ -1,3 +1,6 @@
+import uuid
+from datetime import datetime
+import requests
 from Kimtech.models import *
 
 
@@ -185,6 +188,87 @@ class Statistics:
            total += l.penaltyAmountAdded
         return total
     
+    
+class Notifications:
+    def sendNote(self):
+        notif = [
+            
+        ]
+        no = 0
+        for n in notif:
+            no+=1
+        return [no, notif]
+        
+        
+class Payments:
+    def __init__(self, lender):
+        self.lender = lender
+        
+        
+    def pay(self, amm, tel, plan ):
+        #generating reference
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        uuid_part = uuid.uuid4().hex[:6]
+        txnRef = f"TXN-{uuid_part}-{timestamp}"
+        request.session['ref'] = txnRef
+        try:
+            Subscriber.objects.create(
+                name = self.lender.co_name,
+                username = self.lender.username,
+                plan = plan,
+                amm = amm,
+                txnID = txnRef
+            )
+            print('\n\nTXN added to db\n\n')
+        except Exception as e:
+            print('\n\n', e)
+        #To be replaced by api provider info
+        #_____________________________________
+        
+        url = 'http://127.0.0.1:5000/api'
+        headers = {
+            "Auth" : 'Token sent'
+        }
+        
+        payload = {
+            "username": "your client id",
+            "password": "your secret",
+            "action":"mmpayout",
+            "amount": amm,
+            "currency":"UGX",
+            "phone": tel,
+            "reference": txnRef
+        }
+        #_______________________________
+        try:
+            response = requests.post(url, json = payload, headers = headers)
+            if response.status_code == 200:
+                print('\n\n',response.json(), '\n\n')
+                return True
+            else:
+                print('\n\n',response.json(),'\n\n')
+                return False
+        except Exception as e:
+            print('\n\n', e, '\n\n')
+            return False
+            
+            
+class Update:
+    def __init__(self, lender):
+        self.subscriber = lender
+        self.lender = Lender.objects.get(username = self.subscriber.username)
+        
+        
+    def activate(self, plan):
+        expiry = self.lender.expiry + timedelta(days = int(plan))
+        time_left = self.lender.time_left + (expiry - date.today()).days
+        #update changes
+        self.lender.subscription = True
+        self.lender.subscription_status = 'Working'
+        self.lender.expiry = expiry
+        self.lender.time_left = time_left
+        self.lender.save()
+        return
     
 # Give chance to send error msg without login.
 class UnkownUser:

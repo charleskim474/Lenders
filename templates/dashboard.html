@@ -55,6 +55,14 @@
             cursor: pointer;
             position: relative;
         }
+        
+        #notif-count {
+            color: white;
+            background: red;
+            border-radius: 100%;
+            padding: 2px;
+            font-size: 10px;
+        }
         .menu-container {
     overflow-x: auto;
     white-space: nowrap;
@@ -107,6 +115,11 @@
             cursor: pointer;
             border-radius: 5px;
         }
+         
+         .extend-btn a {
+            text-decoration: none;
+            color: white;
+        }
         .extend-btn:hover {
             background: #218838;
         }
@@ -129,23 +142,14 @@
                 {% if lender.subscription %}
                     Subscription: Active
                 {% else %}
+                
                     Subscription: Expired
                 {% endif %}
             </div>
         </div>  
         
         <div class="notification" onclick="clearNotification()">
-            🔔 <span id="notif-count">
-                {% if notifications %}
-                    <ul>
-                        {% for notif in notifications %}
-                            <li>{{ notif }}</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    0
-                {% endif %}
-            </span>
+            🔔 <span id="notif-count">{{count}}</span>
         </div>
     </div>
 
@@ -159,7 +163,7 @@
             <button><a href="statistics">Statistics</a></button>
             <button><a href="{% url 'app:aggreements' %}">Agreements</a></button>
             <button><a href="{% url 'app:profile' %}">Profile</a></button>
-            <button><a href="#subscriptions">Subscriptions</a></button>
+            <button><a href="{% url 'app:subscription' %}">Subscriptions</a></button>
             <button><a href="{% url 'app:report_error' %}">Report Error</a></button>
             <button><a href="https://wa.me/256706749801?text=Hello Kimtech, I wannt you to help me with...">Help</a></button>
             <button><a href="https://kimtech.pythonanywhere.com">About Kimtech</a></button>
@@ -169,21 +173,49 @@
 
     <div class="content">
         <div class="subscription">
-            {% if lender.time_left < 6 %}
-                <p>Your subscription expires in <strong style="color:red;">{{ lender.time_left }} day(s)</strong>.</p>
-            {% else %}
-                <p>Your subscription expires in <strong>{{ lender.time_left }} day(s)</strong>.</p>
+            {% if lender.time_left > 5 %}
+            <p>Your subscription expires in <strong style="color: green;">{{ lender.time_left }} day(s)</strong>.</p>
+                
+            {% elif lender.time_left < 6  and lender.time_left > -1 %}
+            <p>Your subscription expires in <strong style="color:orange;">{{ lender.time_left }} day(s)</strong>.</p>
+            {% elif lender.time_left < 0 %}
+            <p>Your subscription expired on <strong style="color:red;">{{ lender.expiry }} </strong>.</p>
+                
             {% endif %}
-            <button class="extend-btn" onclick="alert('Feature Not Yet Ready!')">Extend Subscription</button>
+            <button class="extend-btn"><a href="{% url 'app:subscription' %}">Subscriptions</a></button>
         </div>
     </div>
+            <div style="display: none;" id="notif">
+                
+            <div>
+            <div>
+                <h4>Notifications </h4>
+            </div>
+            {% if notifications %}
+            <ul>
+               {% for notif in notifications %}
+               <li>{{ notif }}</li>
+               {% endfor %}
+           </ul>
+           {% else %}
+                No notifications.
+            {% endif %}
+           </div>
+            
+      </div>
 </div>
 
 <script>
-    function clearNotification() {
-        document.getElementById('notif-count').style.display = 'none';
-        alert("All caught up! No new notifications.");
+    function clearNotification(){
+        let nModel = document.getElementById("notif");
+        if(nModel.style.display == 'none'){
+            nModel.style.display = 'flex';
+        }
+        else {
+            nModel.style.display = 'none';
+        }
     }
+    
 </script>
 
 </body>

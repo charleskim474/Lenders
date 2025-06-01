@@ -16,4 +16,6 @@ urlpatterns = [
     path('statistics', views.statistics, name = 'statistics'),
     path('profile', views.profile, name = 'profile'),
     path('report_error', views.report_error, name = 'report_error'),
+    path('subscription', views.subscription, name = 'subscription'),
+    path("webhook", views.webhook, name="webhook"),
 ]

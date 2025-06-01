@@ -90,3 +90,12 @@ class Repayment(models.Model):
     percentage_paid = models.DecimalField(max_digits = 10, decimal_places = 6, default = 0)
     bal = models.DecimalField(max_digits = 18, decimal_places = 6, default = 0.00)
     time_left = models.IntegerField()
+    
+    
+class Subscriber(models.Model):
+    name = models.CharField(max_length = 100)
+    username = models.CharField(max_length = 100)
+    plan = models.CharField(max_length = 100)
+    amm = models.DecimalField(max_digits = 16, decimal_places = 6, default = 0.00)
+    txnID = models.CharField(max_length = 100)
+    date = models.DateField(auto_now_add = True)

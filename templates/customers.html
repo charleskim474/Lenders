@@ -152,6 +152,45 @@
         }
         tr:hover { 
             background-color: #f2f2f2; 
+            font-size: 20px;
+            color: blue;
+        }
+    
+        td:hover { 
+            background-color: #f2f2f2; 
+            font-size: 25px;
+            color: red;
+            font-weight: bold;
+        }
+        
+        #modal {
+          display: none;
+          position: fixed;
+          top: 30%;
+          left: 15%;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.3);
+          justify-content: center;
+          align-items: center;
+          border-radius: 10px;
+            z-index: 5;
+        }
+    
+        #modal {
+            max-width: 60%;
+            max-height: 50%;
+        }
+
+        #modal img{
+            max-width: 99%;
+            max-height: 99%;
+            object-fit: contain;
+        }
+        .profile-pic {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -179,7 +218,7 @@
     <span class="menu-button"><a href="statistics">Statistics</a></span>
     <span class="menu-button"><a href="{% url 'app:aggreements' %}">Agreements</a></span>
             <span class="menu-button"><a href="{% url 'app:profile' %}">Profile</a></span>
-            <span class="menu-button"><a href="#subscriptions">Subscriptions</a></span>
+            <span class="menu-button"><a href="{% url 'app:subscription' %}">Subscriptions</a></span>
             <span class="menu-button"><a href="{% url 'app:report_error' %}">Report Error</a></span>
             <span class="menu-button"><a href="https://wa.me/256706749801?text=Hello Kimtech, I wannt you to help me with...">Help</a></span>
             <span class="menu-button"><a href="https://kimtech.pythonanywhere.com">About Kimtech</a></span>
@@ -222,6 +261,10 @@
                     <th>ID</th>
                     <th>Loan ID</th>
                     <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>NIN</th>
+                    <th>Password</th>
                     <th>Loan Balance</th>
                     <th>Expiry</th>
                 </tr>
@@ -229,12 +272,16 @@
             <tbody>
                 {% for l in loan %}
                 <tr>
-                    <td><img src="{{ l.borrower_id.photo.url }}" alt="Thumbnail" width="100" class="profile-pic"></td>
+                    <td><img src="{{l.borrower_id.photo.url}}" alt="Thumbnail" onclick ="openImage(this)" width="100" class="profile-pic"></td>
                     <td>{{ l.loan_Date }}</td>
                     <td>{{ l.borrower_id.id }}</td>
                     <td>{{ l.id }}</td>
                     <td>{{ l.borrower_id.name }}</td>
-                    <td>{{ l.balance }}</td>
+                    <td><a href="tel:{{ l.borrower_id.tel }}">{{ l.borrower_id.tel }}</a></td>
+                    <td><a href="mailto:{{ l.borrower_id.email }}">{{ l.borrower_id.email }}</a></td>
+                    <td>{{ l.borrower_id.NIN }}</td>
+                    <td>{{ l.borrower_id.pin }}</td>
+                    <td>{{ l.balance|floatformat:2 }}</td>
                     <td>{{ l.last_date }}</td>
                 </tr>
                 {% endfor %}
@@ -244,7 +291,12 @@
     {% else %}
     <p>Your customers will appear here</p>
     {% endif %}
-</div>
+    
+    <div id="modal" onclick ="closeImage()">
+             <img id="fullImage" src="">
+        </div>
+        <p>Thank you for choosing Kimtech Uganda!!!</p>
+    </div>
 
 
 <script>
@@ -318,6 +370,19 @@
         a.download = "loan_data.csv";
         a.click();
     }
+
+
+    function openImage(imageElement){
+            document.getElementById("fullImage").src = imageElement.src;
+            document.getElementById("modal").style.display = "flex";
+            console.log("opened");
+        }
+            
+            
+            function closeImage(){
+                document.getElementById("modal").style.display = "none";
+                console.log("closed");
+            }
 </script>
 
 </body>

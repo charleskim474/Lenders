@@ -129,7 +129,7 @@
             <button> <a href="{% url 'app:aggreements' %}">Agreements</a></button>
             <button> <a href="{% url 'app:profile' %}">Profile</a> </button>
             
-            <button> <a href="#subscriptions">Subscriptions</a></button>
+            <button> <a href="{% url 'app:subscription' %}">Subscriptions</a></button>
             <button> <a href="{% url 'app:report_error' %}">Report Error</a></button>
             
             <button> <a href="https://wa.me/256706749801?text=Hello Kimtech, I wannt you to help me with...">Help</a></button>
@@ -145,34 +145,34 @@
         </div>
         <div class="card">
             <h3>Total Amount Disbursed</h3>
-            <p>{{total_amm}}/=</p>
+            <p>{{total_amm|floatformat:2}}/=</p>
         </div>
         <div class="card">
             <h3>Total Partialy Paid Amount</h3>
-            <p>{{part_paid}}/= ({{ptPaid_rate|floatformat:2}}%)</p>
+            <p>{{part_paid|floatformat:2}}/= ({{ptPaid_rate|floatformat:2}}%)</p>
         </div>
         <div class="card">
             <h3>Successful Repayments</h3>
             <p>Loans   :{{success_loans}} ({{rate|floatformat:2}}%) </p>
-            <p>Ammount : {{success_pay}}/= </p>
+            <p>Ammount : {{success_pay|floatformat:2}}/= </p>
         </div>
         <div class="card">
             <h3>Unpaid Loan Balance</h3>
             <p style="color: gray;">(With Late Payment Fees Inclusive if exist)</p>
-            <p>{{loan_balance}} /= ({{bal_rate|floatformat:2}}%)</p>
+            <p>{{loan_balance|floatformat:2}} /= ({{bal_rate|floatformat:2}}%)</p>
         </div>
         <div class="card">
             <h3>Expected Interest</h3>
             <p style="color: gray;">(With Late Payment Fees Inclusive if exist)</p>
-            <p>{{exp_interest}} /=</p>
+            <p>{{exp_interest|floatformat:2}} /=</p>
         </div>
         <div class="card">
             <h3>Collected Interest</h3>
-            <p>{{collected_intr}}/= ({{intr_rate|floatformat:2}}%)</p>
+            <p>{{collected_intr|floatformat:2}}/= ({{intr_rate|floatformat:2}}%)</p>
         </div>
         <div class="card">
             <h3>Late Fees Expected</h3>
-            <p>{{penalty}} /=</p>
+            <p>{{penalty|floatformat:2}} /=</p>
         </div>
     </div>
 

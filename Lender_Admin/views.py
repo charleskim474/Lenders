@@ -3,13 +3,14 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.conf import settings
+from django.contrib import messages
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 from Kimtech.models import *
 from datetime import date, timedelta
 from Kimtech.logic import exp_check
 from .logic import *
-
-# Create your views here.
-
 
 
 #LOGIN FOR LENDER
@@ -29,7 +30,8 @@ def login(request):
             request.session['uname'] = uname
             print(f"===Added : {request.session.get('uname', 'Sessiom Not Added')} to session")
             if row.subscription == False:
-                return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+                messages.success(request, f'Dear customer, your subscription expired on {row.expiry}! \n Please subscribe and gain full access to your data.')
+                return redirect('app:subscription')
             else:
                 return redirect('app:home')
         else:
@@ -42,7 +44,9 @@ def home(request):
     access = request.session.get('uname', 'deny')
     if access != 'deny':
         row = Lender.objects.get(username = access)
-        return render(request, 'dashboard.html', {'lender' : row})
+        note = Notifications()
+        notifications = note.sendNote()
+        return render(request, 'dashboard.html', {'lender' : row, 'count' : notifications[0], 'notifications' : notifications[1]})
     else:
         return redirect('app:login')
 
@@ -61,68 +65,73 @@ def add_borrower(request):
     exp_check()
     access = request.session.get('uname', 'deny')
     if access != 'deny':
-        print('===>Loged in with ',access)
-        if request.method == 'POST':
-            lender = Lender.objects.get(username = access)
-            save = NewLoan(access)
-            
-            #Borrower details
-            name = request.POST.get('name')
-            tel = request.POST.get('tel')
-            email = request.POST.get('email')
-            location = request.POST.get('location')
-            chair = request.POST.get('chair')
-            chairTel = request.POST.get('chairTel')
-            nextOfKin = request.POST.get('nextOfKin')
-            nextOfKinTel = request.POST.get('nextOfKinTel')
-            buz = request.POST.get('buz')
-            buzloc = request.POST.get('buzloc')
-            pin = request.POST.get('pin')
-            photo = request.FILES.get('photo', '/static/images/blankPerson.jpeg')
-            NIN = request.POST.get('NIN')
-            try:
-                NINcheck = Borrower.objects.get(lender_id = lender, NIN = NIN)
-                if NINcheck.NIN == NIN:
-                    print('===>>Identical NIN found')
-                    return render(request, 'new_borrower.html', {'NINerr':'NIN already used In this Company!'})
-            except Borrower.DoesNotExist:
-                print('===>>No Identical NIN found')
-            
-            if save.borrowerInfo(name, NIN, tel, email, location, pin, photo, chair,chairTel, nextOfKin, nextOfKinTel, buz, buzloc):
-                #Loan Details
-                loan_amount = request.POST.get('loan_amount')
-                interest_rate = request.POST.get('interest_rate')
-                processing_fee = request.POST.get('processing_fee')
-                duration = request.POST.get('duration')
-                startDate = request.POST.get('date')
-                comments = request.POST.get('comments')
-                penalty = request.POST.get('penalty')
-                effectDay = request.POST.get('effectDay')
-                dailyPay = request.POST.get('dailyPay')
-                nin = NIN# for extracting borrower info
-                if save.loanInfo(nin, loan_amount, interest_rate, processing_fee, duration, startDate, comments, penalty, effectDay, dailyPay):
-                    #Agreement
-                    aggreement = request.FILES.get('aggreement', '/static/images/blankPerson.jpeg')
-                    if save.agreementInfo(nin, aggreement):
-                        #Collateral
-                        asset_name = request.POST.get('asset_name')
-                        description = request.POST.get('description')
-                        proof = request.FILES.get('proof')
-                        asset_photo = request.FILES.get('asset_photo')
-                        if save.collateralInfo(nin, asset_name, description, proof, asset_photo):
-                            #when everything is added successfuly
-                            return redirect('app:loans')
-                        else:
-                            return render(request, 'new_borrower.html', {'msg': 'Error occured in Collateral Information check for mistakes and try again. '})
-                    else:
-                        return render(request, 'new_borrower.html', {'msg': 'Error occured in Agreement Information check for mistakes and try again. '})
-                else:
-                    return render(request, 'new_borrower.html', {'msg': 'Error occured in Loan Information check for mistakes and try again. '})
-            else:
-                return render(request, 'new_borrower.html', {'msg': 'Error occured in Borrower Information check for mistakes and try again. '})
+        lender = Lender.objects.get(username = access)
+        if lender.subscription == False:
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
-            lender = Lender.objects.get(username = access)
-            return render(request, 'new_borrower.html', {'lender' : lender } )
+            print('===>Loged in with ',access)
+            if request.method == 'POST':
+                lender = Lender.objects.get(username = access)
+                save = NewLoan(access)
+            
+                #Borrower details
+                name = request.POST.get('name')
+                tel = request.POST.get('tel')
+                email = request.POST.get('email')
+                location = request.POST.get('location')
+                chair = request.POST.get('chair')
+                chairTel = request.POST.get('chairTel')
+                nextOfKin = request.POST.get('nextOfKin')
+                nextOfKinTel = request.POST.get('nextOfKinTel')
+                buz = request.POST.get('buz')
+                buzloc = request.POST.get('buzloc')
+                pin = request.POST.get('pin')
+                photo = request.FILES.get('photo', '/static/images/blankPerson.jpeg')
+                NIN = request.POST.get('NIN')
+                try:
+                    NINcheck = Borrower.objects.get(lender_id = lender, NIN = NIN)
+                    if NINcheck.NIN == NIN:
+                        print('===>>Identical NIN found')
+                        return render(request, 'new_borrower.html', {'NINerr':'NIN already used In this Company!'})
+                except Borrower.DoesNotExist:
+                    print('===>>No Identical NIN found')
+            
+                if save.borrowerInfo(name, NIN, tel, email, location, pin, photo, chair,chairTel, nextOfKin, nextOfKinTel, buz, buzloc):
+                    #Loan Details
+                    loan_amount = request.POST.get('loan_amount')
+                    interest_rate = request.POST.get('interest_rate')
+                    processing_fee = request.POST.get('processing_fee')
+                    duration = request.POST.get('duration')
+                    startDate = request.POST.get('date')
+                    comments = request.POST.get('comments')
+                    penalty = request.POST.get('penalty')
+                    effectDay = request.POST.get('effectDay')
+                    dailyPay = request.POST.get('dailyPay')
+                    nin = NIN# for extracting borrower info
+                    if save.loanInfo(nin, loan_amount, interest_rate, processing_fee, duration, startDate, comments, penalty, effectDay, dailyPay):
+                        #Agreement
+                        aggreement = request.FILES.get('aggreement', '/static/images/blankPerson.jpeg')
+                        if save.agreementInfo(nin, aggreement):
+                            #Collateral
+                            asset_name = request.POST.get('asset_name')
+                            description = request.POST.get('description')
+                            proof = request.FILES.get('proof')
+                            asset_photo = request.FILES.get('asset_photo')
+                            if save.collateralInfo(nin, asset_name, description, proof, asset_photo):
+                                #when everything is added successfuly
+                                return redirect('app:loans')
+                            else:
+                                return render(request, 'new_borrower.html', {'msg': 'Error occured in Collateral Information check for mistakes and try again. '})
+                        else:
+                            return render(request, 'new_borrower.html', {'msg': 'Error occured in Agreement Information check for mistakes and try again. '})
+                    else:
+                        return render(request, 'new_borrower.html', {'msg': 'Error occured in Loan Information check for mistakes and try again. '})
+                else:
+                    return render(request, 'new_borrower.html', {'msg': 'Error occured in Borrower Information check for mistakes and try again. '})
+            else:
+                lender = Lender.objects.get(username = access)
+                return render(request, 'new_borrower.html', {'lender' : lender } )
     else:
         return redirect('app:login')
         
@@ -135,7 +144,8 @@ def customers(request):
     if access != 'deny':
         lender = Lender.objects.get(username = access)
         if lender.subscription == False:
-            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
             lender_id = lender.id
             loan = Loans.objects.filter(lender_id = lender_id)
@@ -153,7 +163,8 @@ def loans(request):
     if access != 'deny':
         lender = Lender.objects.get(username = access)
         if lender.subscription == False:
-            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
             lender_id = lender.id
             loans = Loans.objects.filter(lender_id = lender_id)
@@ -171,7 +182,8 @@ def repayments(request):
     if access != 'deny':
         lender = Lender.objects.get(username = access)
         if lender.subscription == False:
-            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
             if request.method == 'POST':
             #select name from drop down list
@@ -181,7 +193,11 @@ def repayments(request):
                 loan = Loans.objects.get(lender_id = lender, borrower_id = borrower)
                 loan.total_amm
                 bal = loan.balance - int(paid)
-                percentage_paid = 100 - ( ( bal/loan.total_amm ) * 100 )
+                try:
+                    percentage_paid = 100 - ( ( bal/loan.total_amm ) * 100 )
+                except ZeroDivisionError:
+                    percentage_paid = 100
+                    print('Zero Division Error!')
                 time_left = loan.last_date - date.today()
                 Repayment.objects.create(
                     lender_id = lender,
@@ -213,7 +229,8 @@ def aggreements(request):
     if access != 'deny':
         lender = Lender.objects.get(username = access)
         if lender.subscription == False:
-            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
             #use collateral model to get all required information
             collateral = Collateral.objects.filter(lender_id = lender)
@@ -232,7 +249,9 @@ def status(request):
                 try:
                     data = Collateral.objects.get(lender_id = customer.lender_id, borrower_id = customer)
                     repayments = Repayment.objects.filter(lender_id = customer.lender_id, borrower_id = customer)
-                    return render(request, 'info.html', {'data':data, 'info':repayments})
+                    Ldate = Loans.objects.get(borrower_id = customer)
+                    tLeft = (Ldate.last_date - date.today()).days
+                    return render(request, 'info.html', {'data':data, 'info':repayments, 'tLeft' : tLeft})
                 except Exception:
                     print('===>No collateral info found')
                     return HttpResponse('<h1>Missing Information In The System, Please Contact your Lender For Assistance! <br />Thank you.</h1>')
@@ -247,7 +266,8 @@ def statistics(request):
     if access != 'deny':
         lender = Lender.objects.get(username = access)
         if lender.subscription == False:
-            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
             stat = Statistics()
             statistics = {
@@ -278,7 +298,8 @@ def profile(request):
     if access != 'deny':
         lender = Lender.objects.get(username = access)
         if lender.subscription == False:
-            return render(request, 'index.html', {'msg':'Hello customer, your subscription expired, please subscribe and gain access!'})
+            messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
+            return redirect('app:subscription')
         else:
             if request.method == 'POST':
                 name = request.POST.get('co_name')
@@ -327,4 +348,44 @@ def report_error(request):
                 return render(request, 'report.html', { 'lender' : lender, 'msg' : 'No Network Connection!'})
     return render(request, 'report.html', { 'lender' : lender})
     
-            
+         
+def subscription(request):
+    user = request.session.get('uname', 'deny')
+    if user != 'deny':
+        lender = Lender.objects.get(username = user)
+        if request.method == 'POST':
+            plan = request.POST.get('plan')
+            pAmm = request.POST.get('pAmm')
+            network = request.POST.get('network')
+            phone = request.POST.get('tel')
+            print('\n\n===> Request from id:',lender.id, '\nPlan : ', plan, '\nAmount : ', pAmm, '\nNetwork : ', network,  '\nTel : ', phone)
+            #API logic
+            subscribe = Payments(lender)
+            confirm = subscribe.pay(pAmm, phone, plan)
+            if confirm:
+                #this may get handled direct from the hook
+                obj = Update(lender)
+                obj.activate(plan)
+                print('\n\nWaiting for Validation \n\n')
+                ##..........___________________,,,
+                return redirect('app:home')
+            else:
+                return render(request, 'subscription.html', {'msg' : 'Error Occured! please try again or check your acount balance and try again.'})
+        return render(request, 'subscription.html')
+    return redirect('app:login')
+ 
+ 
+@csrf_exempt
+def webhook(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            print("\n\nReceived webhook data:==>", data)
+            #SUBSCRIPTION LOGIC HERE
+            #____________________________
+            return JsonResponse({"status": "success", "message": "Webhook received"}, status=200)
+        except json.JSONDecodeError:
+            print("\n\nInvalid JSON payload! ")
+            return JsonResponse({"status": "error", "message": "Invalid JSON payload"}, status=400)
+    print("\n\nHttp method not allowed! ")
+    return JsonResponse({"status": "error", "message": "Method not allowed"}, status=405)

@@ -301,7 +301,7 @@
             <span class="menu-button"><a href="statistics">Statistics</a></span>
             <span class="menu-button"><a href="{% url 'app:aggreements' %}">Agreements</a></span>
             <span class="menu-button"><a href="{% url 'app:profile' %}">Profile</a></span>
-            <span class="menu-button"><a href="#subscriptions">Subscriptions</a></span>
+            <span class="menu-button"><a href="{% url 'app:subscription' %}">Subscriptions</a></span>
             <span class="menu-button"><a href="{% url 'app:report_error' %}">Report Error</a></span>
             <span class="menu-button"><a href="https://wa.me/256706749801?text=Hello Kimtech, I wannt you to help me with...">Help</a></span>
             <span class="menu-button"><a href="https://kimtech.pythonanywhere.com">About Kimtech</a></span>
@@ -380,8 +380,8 @@
                     <td>{{r.borrower_id.id}}</td>
                     <td>{{r.loan_id.id}}</td>
                     <td>{{r.borrower_id.name}}</td>
-                    <td>{{r.paid}}</td>
-                    <td>{{r.percentage_paid}} %</td>
+                    <td>{{r.paid|floatformat:2}}</td>
+                    <td>{{r.percentage_paid|floatformat:2}} %</td>
                     
                     {% if r.time_left < 0 %}
                     <td style="color: red">Expired on {{r.loan_id.last_date}} </td>
@@ -392,7 +392,7 @@
                     
                     {% endif %}
                     </td>
-                    <td>{{r.bal}}</td>
+                    <td>{{r.bal|floatformat:2}}</td>
                 </tr>
                 {% endfor %}
                 </tbody>
