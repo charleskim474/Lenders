@@ -115,6 +115,7 @@
         th {
             background-color: #003366;
             color: white;
+            padding: 20px;
         }
 
         tr {
@@ -123,12 +124,13 @@
         }
 
         tr:hover {
-            background-color: #f2f2f2;
+            background-color: #d2d2d2;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
         }
 
         td:hover {
             font-weight: bold;
+            font-size: 20px;
             color: #004080;
         }
     
@@ -244,15 +246,15 @@
             <thead>
                 <tr>
                     <th>Photo</th>
-                												<th>Borrower_ID</th>
+                												<th>Borrower ID</th>
                     <th>Name</th>
-                												<th>Loan_Date</th>
-                												<th>Loan_Amount</th>
-                												<th>Interest_Rate</th>
-                												<th>Processing_Fee</th>
-                										<th>Total_Loan Amount</th>
+                												<th>Loan Date</th>
+                												<th>Loan Amount</th>
+                												<th>Interest Rate</th>
+                												<th>Processing Fee</th>
+                										<th>Total Loan Amount</th>
                 									<th>Loan Duration</th>
-                			  <th>Last_Date</th>
+                			  <th>Last Date</th>
                 </tr>
             </thead>
             {% for l in loans %}
