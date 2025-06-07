@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Lender Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 98%;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Responsive Cards */
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .card {
+            flex: 1;
+            min-width: 100px;
+            padding: 10px;
+            text-align: center;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 14px;
+        }
+        .total-card { background: #343a40; }
+        .active-card { background: #28a745; }
+        .expired-card { background: #dc3545; }
+        .trial-card { background: #ffc107; }
+
+        /* Search Box */
+        .search-box {
+            width: 100%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Responsive Table */
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+            font-size: 16px;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+    
+        tr:hover {
+            background: #999999;
+            font-weight: bold;
+            font-style: italic;
+        }
+        .logo {
+            width: 60px;
+            height: 60px;
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            h1 {
+                font-size: 22px;
+            }
+            .cards {
+                flex-direction: column;
+                align-items: center;
+            }
+            .card {
+                width: 100%;
+            }
+            th, td {
+                font-size: 14px;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Money Lender Admin Dashboard</h1>
+
+    <!-- Summary Cards -->
+    <div class="cards">
+        <div class="card total-card">
+            <h2 id="totalCount">{{total}}</h2>
+            <p>Total Lenders</p>
+        </div>
+        <div class="card active-card">
+            <h2 id="activeCount">{{active}}</h2>
+            <p>Active Subscriptions</p>
+        </div>
+        <div class="card expired-card">
+            <h2 id="expiredCount">{{expired}}</h2>
+            <p>Expired Subscriptions</p>
+        </div>
+        <div class="card trial-card">
+            <h2 id="trialCount">{{trial}}</h2>
+            <p>Trial Users</p>
+        </div>
+    </div>
+
+
+    <!-- Table Container for Scrollable Behavior -->
+    {% if lenders %}
+    <input type="text" id="searchInput" placeholder="Search table..." onkeyup="searchTable()" class="search-box">
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Logo</th>
+                    <th>Co. Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Subscription</th>
+                    <th>Status</th>
+                    <th>Expiry</th>
+                    <th>Remaining Days</th>
+                </tr>
+            </thead>
+            <tbody class="lenderData">
+            {% for lender in lenders %}
+             <tr>
+                 <td>
+                     {% if lender.logo.url != None %}
+             <img src="{{lender.logo.url}}" alt="Company Logo" class="logo">
+        {% else %}
+             <img src="/static/images/logo-placeholder.png" alt="Company Logo" class="logo">
+        {% endif %}
+                     
+                 </td>
+                <td>{{lender.co_name}}</td>
+                <td>{{lender.tel}}</td>
+                <td>{{lender.email}}</td>
+                 {% if lender.subscription == True %}
+                 <td style="color: green;">{{lender.subscription}}</td>
+                 {% else %}
+                 <td style="color: red;">{{lender.subscription}}</td>
+                 {%endif%}
+                 {% if lender.subscription_status == 'Trial' %}
+                 <td style="background-color: orange;">{{lender.subscription_status}}</td>
+                 {%else%}
+                 <td>{{lender.subscription_status}}</td>
+                 {%endif%}
+                 <td>{{lender.expiry}}</td>
+                 {% if lender.time_left > 6 %}
+                 <td style="color: green;">{{lender.time_left}} days</td>
+                 {% elif lender.time_left < 7 and lender.time_left > 3 %}
+                 <td style="color: orange;">{{lender.time_left}} days</td>
+                 {% else %}
+                 <td style="color: red;">{{lender.time_left}} days</td>
+                 {%endif%}
+             </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {%endif%}
+    </div>
+</div>
+
+<script>
+    function searchTable() {
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    let table = document.querySelector(".lenderData");
+    let rows = table.getElementsByTagName("tr");
+
+    for (let i = 0; i < rows.length; i++) {
+        let cells = rows[i].getElementsByTagName("td");
+        let match = false;
+
+        for (let j = 0; j < cells.length; j++) {
+            if (cells[j]) {
+                let text = cells[j].textContent || cells[j].innerText;
+                if (text.toLowerCase().includes(input)) {
+                    match = true;
+                    break;
+                }
+            }
+        }
+
+        rows[i].style.display = match ? "" : "none";
+    }
+}
+</script>
+
+</body>
+</html>

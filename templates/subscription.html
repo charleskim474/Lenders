@@ -59,6 +59,11 @@
       justify-content: center;
       padding: 20px;
     }
+  
+     .plans h1 {
+       width 100%;
+       font-style: italic;
+     }
 
     .plan {
       background: white;
@@ -152,8 +157,13 @@
   {% if msg %}
   <li style="color: red; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); border-radius: 15px; padding: 15px;">{{ msg }}</li>
   {% endif %}
+  <p>
+    The platform is still free for you. Subscriptions will be enabled soon.
+    contact <a href="tel:0706749801">0706749801</a>/ <a href="0761357092">0761357092</a> For help. thank you!
+  </p>
   
   <!-- Subscription Plans -->
+  <!--
   <div class="plans">
     <h1>Please select your desired plan below.</h1>    
     <div class="plan" onclick="openModal('One day', 1000, 1)">
@@ -186,7 +196,7 @@
     </div>
   </div>
 
-  <!-- Modal -->
+  <!-- Modal --
   <div class="modal" id="paymentModal">
     <div class="modal-content">
       <div class="close" onclick="closeModal()">X</div>
@@ -206,7 +216,7 @@
         <input type="tel" id="phone" name="tel" placeholder="e.g. 077..., 078..., 076..., 075..., 074..., 070..." required />  
         <button type="submit">Pay Now</button>
       </form>
-    </div>
+    </div>  -->
   </div>
   
   <script>

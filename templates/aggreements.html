@@ -228,17 +228,14 @@
 
     <script>
         document.getElementById("searchBox").addEventListener("input", function() {
-            let query = this.value.toLowerCase();
-            let items = document.querySelectorAll(".card");
+    let query = this.value.trim().toLowerCase(); // Remove leading/trailing spaces
+    let items = document.querySelectorAll(".section");
 
-            items.forEach(item => {
-                if (item.textContent.toLowerCase().includes(query)) {
-                    item.style.display = "block";
-                } else {
-                    item.style.display = "none";
-                }
-            });
-        });
+    items.forEach(item => {
+        item.style.display = item.textContent.toLowerCase().includes(query) ? "block" : "none";
+        
+    });
+});
     
         function openImage(imageElement){
             document.getElementById("fullImage").src = imageElement.src;

@@ -210,22 +210,21 @@ class Payments:
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
         uuid_part = uuid.uuid4().hex[:6]
         txnRef = f"TXN-{uuid_part}-{timestamp}"
-        request.session['ref'] = txnRef
         try:
-            Subscriber.objects.create(
+            """Subscriber.objects.create(
                 name = self.lender.co_name,
                 username = self.lender.username,
                 plan = plan,
                 amm = amm,
                 txnID = txnRef
             )
-            print('\n\nTXN added to db\n\n')
+            print('\n\nTXN added to db\n\n')"""
         except Exception as e:
             print('\n\n', e)
         #To be replaced by api provider info
         #_____________________________________
         
-        url = 'http://127.0.0.1:5000/api'
+        """url = 'http://127.0.0.1:5000/api'
         headers = {
             "Auth" : 'Token sent'
         }
@@ -238,16 +237,19 @@ class Payments:
             "currency":"UGX",
             "phone": tel,
             "reference": txnRef
-        }
+        }"""
         #_______________________________
         try:
-            response = requests.post(url, json = payload, headers = headers)
+            return True
+            """response = requests.post(url, json = payload, headers = headers)
             if response.status_code == 200:
-                print('\n\n',response.json(), '\n\n')
-                return True
-            else:
-                print('\n\n',response.json(),'\n\n')
-                return False
+                print('\n\n',response.json(), '\n\n')"""
+            
+              #  return True
+           # else:
+           #   print('Trying to pay')
+              #  print('\n\n',response.json(),'\n\n')
+            #    return False
         except Exception as e:
             print('\n\n', e, '\n\n')
             return False

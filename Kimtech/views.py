@@ -55,3 +55,25 @@ def create_account(request):
             return render(request, 'lenders.html', {'lender':lender, 'ex':e, 'uname':username })#
     lender = Lender.objects.all()#
     return render(request, 'lenders.html', {'lender':lender})#
+    
+    
+def admin(request):
+    lenders = Lender.objects.all()
+    total = 0
+    active = 0
+    trial = 0
+    for l in lenders:
+        total += 1
+        if l.subscription == True:
+            active += 1
+            if l.subscription_status == 'Trial':
+                trial += 1
+                
+    summary = {
+        'lenders' : lenders,
+        'total' : total,
+        'active' : active,
+        'trial' : trial,
+        'expired' : total - active,
+    }
+    return render(request, 'admin.html', summary)
