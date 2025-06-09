@@ -269,8 +269,20 @@ def statistics(request):
             messages.success(request, f'Dear customer, your subscription expired on {lender.expiry}! \n Please subscribe and gain full access to your data.')
             return redirect('app:subscription')
         else:
-            stat = Statistics()
+            period = 1
+            if request.method == 'POST':
+                period = int(request.POST.get('period', 3))
+                
+            if period == 1:
+                time = "This Month"
+            elif period == 2:
+                time = "Last Month"
+            else:
+                time = "All"
+                
+            stat = Statistics(period)
             statistics = {
+                'time' : time,
                 'logo' : lender.logo,
                 'name' : lender.co_name,
                 'total_loans' : stat.getTotalLoans(lender),
@@ -288,6 +300,8 @@ def statistics(request):
                 'penalty' : stat.penalty(lender)
                 #Graph data
             }
+            
+            
             
             return render(request, 'statistics.html', statistics)
     return redirect('app:login')

@@ -1,7 +1,8 @@
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 import requests
 from Kimtech.models import *
+import calendar
 
 
 class NewLoan:
@@ -107,8 +108,35 @@ class NewLoan:
             
             
 class Statistics:
+    def __init__(self, period):
+        self.period = period
+        print('===>', self.period)
+        self.today = datetime.now()
+        self.c_month_d = self.today.month
+        self.time = self.c_month_d
+        print('=****=>', self.time)
+        
+        if self.period == 1:
+            self.c_month_d = self.today.month
+            self.time = self.c_month_d
+            print('=****=>', self.time)
+            
+        elif self.period == 2:
+            self.p_month_d = self.today.month - 1
+            self.time = self.p_month_d
+            print('=****=>', self.time)
+            
+        else:
+            self.time = ''
+            print('=****=>', self.time)
+        
     def getTotalLoans(self, lender_id):
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__month = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
+        print('\n\n=****=>', self.time)
         total = 0
         for l in loans:
             total = total+1
@@ -116,7 +144,11 @@ class Statistics:
         
         
     def totalLoanAmount(self, lender_id):
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__month = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
         total_amm = 0
         for l in loans:
             total_amm = total_amm + l.total_amm
@@ -125,7 +157,11 @@ class Statistics:
         
     def ptPaid(self, lender_id):
         paid = 0
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__month = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
         for l in loans:
             paid += (l.total_amm - l.balance)
         try:
@@ -136,7 +172,11 @@ class Statistics:
         
         
     def fullPay(self, lender_id):
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__month = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
         fully = 0
         count = 0
         for l in loans:
@@ -151,7 +191,11 @@ class Statistics:
         
         
     def unpaid(self, lender_id):
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__contains = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
         bal = 0
         rate = 0
         for l in loans:
@@ -164,7 +208,11 @@ class Statistics:
         
         
     def interest(self, lender_id):
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__month = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
         paid_so_far = 0
         interest = 0
         exp_intr = 0
@@ -181,7 +229,11 @@ class Statistics:
         
         
     def penalty(self, lender_id):
-        loans = Loans.objects.filter(lender_id = lender_id)
+        try:
+            loans = Loans.objects.filter(lender_id = lender_id, loan_Date__month = self.time)
+        except Exception:
+            loans = Loans.objects.filter(lender_id = lender_id)
+            
         total = 0
         collected = 0
         for l in loans:

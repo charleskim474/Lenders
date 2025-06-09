@@ -69,6 +69,24 @@
         .menu button:hover {
             background: #dddddd;
         }
+    
+        select {
+            width: 60%;
+            border: 1px solid blue; 
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        
+        #period button {
+            border: none;
+            padding-left: 10px;
+            padding-right: 10px;
+            background: black;
+            color: white;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+    
         .stats {
             display: flex;
             justify-content: space-around;
@@ -138,6 +156,21 @@
             <button> <a href="{% url 'app:logout' %}">Logout</a></button>
         </div>
     </div>
+    
+    <div>
+        <form action="{% url 'app:statistics' %}" method="POST">
+            {% csrf_token %}
+        <select  id="period" name="period" class="search">
+                <option value="1">This month</option>
+                <option value="2">Last Month</option>
+            <option value="3">All</option>
+        </select>
+            <button type="submit">View</button>
+        </form>
+    </div>
+    
+    <div id="view"><h3>{{time}}</h3></div>
+            
 
     <div class="stats">
         <div class="card">
@@ -178,61 +211,9 @@
     </div>
 
     
-    <!--
-    <div class="chart-container">
-        <canvas id="loanChart"></canvas>
-        <canvas id="interestChart"></canvas>
+   
     </div>
 </div>
--->
-<script>
-    /*
-    const loanCtx = document.getElementById('loanChart').getContext('2d');
-    new Chart(loanCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-            datasets: [{
-                label: 'Loans Issued ($)',
-                data: [400000, 500000, 600000, 700000, 800000],
-                borderColor: '#007bff',
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                tooltip: {
-                    enabled: true
-                }
-            }
-        }
-    });
-
-    const interestCtx = document.getElementById('interestChart').getContext('2d');
-    new Chart(interestCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-            datasets: [{
-                label: 'Interest Collected ($)',
-                data: [45000, 55000, 60000, 70000, 80000],
-                borderColor: '#28a745',
-                fill: false
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                tooltip: {
-                    enabled: true
-                }
-            }
-        }
-    });
-    
-    */
-</script>
 
 </body>
 </html>
