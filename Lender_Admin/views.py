@@ -378,8 +378,8 @@ def subscription(request):
             confirm = subscribe.pay(pAmm, phone, plan)
             if confirm:
                 #this may get handled direct from the hook
-             #   obj = Update(lender)
-            #    obj.activate(plan)
+                obj = Update(lender)
+                obj.activate(plan)
                 print('\n\nWaiting for Validation \n\n')
                 ##..........___________________,,,
                 return redirect('app:home')

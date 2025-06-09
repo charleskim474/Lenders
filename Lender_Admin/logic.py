@@ -263,45 +263,40 @@ class Payments:
         uuid_part = uuid.uuid4().hex[:6]
         txnRef = f"TXN-{uuid_part}-{timestamp}"
         try:
-            """Subscriber.objects.create(
+            Subscriber.objects.create(
                 name = self.lender.co_name,
                 username = self.lender.username,
                 plan = plan,
                 amm = amm,
                 txnID = txnRef
             )
-            print('\n\nTXN added to db\n\n')"""
+            print('\n\nTXN added to db\n\n')
         except Exception as e:
             print('\n\n', e)
         #To be replaced by api provider info
         #_____________________________________
         
-        """url = 'http://127.0.0.1:5000/api'
-        headers = {
-            "Auth" : 'Token sent'
-        }
+        url = 'https://www.easypay.co.ug/api/'
         
         payload = {
-            "username": "your client id",
-            "password": "your secret",
-            "action":"mmpayout",
+            "username": "22f16ffa430705e1",
+            "password": "cb68419e05c52540",
+            "action":"mmdeposit",
             "amount": amm,
             "currency":"UGX",
             "phone": tel,
-            "reference": txnRef
-        }"""
+            "reference": txnRef,
+            "reason":"Payment for system activation"
+        }
         #_______________________________
         try:
-            return True
-            """response = requests.post(url, json = payload, headers = headers)
+            response = requests.post(url, json = payload)
             if response.status_code == 200:
-                print('\n\n',response.json(), '\n\n')"""
-            
-              #  return True
-           # else:
-           #   print('Trying to pay')
-              #  print('\n\n',response.json(),'\n\n')
-            #    return False
+                print('\n\n',response.json(), '\n\n')
+                return True
+            else:
+                print('\n\n',response.json(),'\n\n')
+                return False
         except Exception as e:
             print('\n\n', e, '\n\n')
             return False
