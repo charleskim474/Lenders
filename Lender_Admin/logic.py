@@ -316,9 +316,11 @@ class Payments:
                     obj.send_email(f"Received UGX {data['details']['amount']} from :  {data['details']['phone']} Ref :  {data['details']['reference']} TXN ID : {data['details']['transactionId'] }")
                     return True
                 else:
+                    obj.send_email(f"Payment unsuccessfull (code: 200)")
                     return False
             else:
                 print('\n\nRequest failed',response.json(),'\n\n')
+                obj.send_email(f"Payment unsuccessfull")
                 return False
         except Exception as e:
             print('\n\n API request Exeption', e, '\n\n')
