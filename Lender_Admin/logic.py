@@ -275,6 +275,7 @@ class Payments:
         
         
     def pay(self, amm, tel, plan ):
+        obj = Notifications()
         #generating reference
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
         uuid_part = uuid.uuid4().hex[:6]
@@ -309,10 +310,15 @@ class Payments:
         try:
             response = requests.post(url, json = payload)
             if response.status_code == 200:
-                print('\n\n',response.json(), '\n\n')
-                return True
+                print('\n\n Request status',response.json(), '\n\n')
+                data = response.json()
+                if data['success'] == 1:
+                    obj.send_email(f"Received UGX {data['details']['amount']} from :  {data['details']['phone']} Ref :  {data['details']['reference']} TXN ID : {data['details']['transactionId'] }")
+                    return True
+                else:
+                    return False
             else:
-                print('\n\n',response.json(),'\n\n')
+                print('\n\nRequest failed',response.json(),'\n\n')
                 return False
         except Exception as e:
             print('\n\n API request Exeption', e, '\n\n')
