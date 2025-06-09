@@ -391,14 +391,21 @@ def subscription(request):
  
 @csrf_exempt
 def webhook(request):
+    obj = Notifications()
     if request.method == "POST":
         try:
             data = json.loads(request.body)
             print("\n\nReceived webhook data:==>", data)
             #SUBSCRIPTION LOGIC HERE
+            if data['success'] == 1:
+                print("\n\nPaid successfully:==>", data)
+                obj.send_email('Payment processed successfully')
+            else:
+                obj.send_email('Payment not processed processed')
             #____________________________
             return JsonResponse({"status": "success", "message": "Webhook received"}, status=200)
         except json.JSONDecodeError:
+            obj.send_email('Payment not processed processed,  Invalid JSON payload! ')
             print("\n\nInvalid JSON payload! ")
             return JsonResponse({"status": "error", "message": "Invalid JSON payload"}, status=400)
     print("\n\nHttp method not allowed! ")

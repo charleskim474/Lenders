@@ -252,6 +252,23 @@ class Notifications:
         return [no, notif]
         
         
+    def send_email(self, msg):
+        try:
+            send_mail(
+                subject = 'NOTIFICATION FROM LMS',
+                message=msg,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[
+                        'ugkimtech@gmail.com',
+                        'charleskim474@gmail.com'
+                ],
+                fail_silently=False,
+            )
+            print('mail sent')
+        except Exception:
+                print('error occured during emailing you')
+        
+        
 class Payments:
     def __init__(self, lender):
         self.lender = lender
@@ -298,7 +315,7 @@ class Payments:
                 print('\n\n',response.json(),'\n\n')
                 return False
         except Exception as e:
-            print('\n\n', e, '\n\n')
+            print('\n\n API request Exeption', e, '\n\n')
             return False
             
             
