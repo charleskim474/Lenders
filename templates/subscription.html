@@ -167,31 +167,31 @@
   
   <div class="plans">
     <h1>Please select your desired plan below.</h1>    
-    <div class="plan" onclick="openModal('One day', 854, 1)">
+    <div class="plan" onclick="openModal('One day', 854, 120, 1)">
       <h3>One Day</h3>
-      <p>UGX 1000</p>
+      <p>UGX 1,000</p>
     </div>
-    <div class="plan" onclick="openModal('One Week', 4320, 7)">
+    <div class="plan" onclick="openModal('One Week', 4709, 150, 7)">
       <h3>One Week</h3>
       <p>UGX 5,000</p>
     </div>
-    <div class="plan" onclick="openModal('Two Weeks', 9175, 14)">
+    <div class="plan" onclick="openModal('Two Weeks', 9175, 550, 14)">
       <h3>Two Weeks</h3>
       <p>UGX 10,000</p>
     </div>
-    <div class="plan" onclick="openModal('One Month', 19758, 30)">
+    <div class="plan" onclick="openModal('One Month', 19757, 650, 30)">
       <h3>One Month</h3>
       <p>UGX 21,000</p>
     </div>
-    <div class="plan" onclick="openModal('Three Months', 58301, 90)">
+    <div class="plan" onclick="openModal('Three Months', 58301, 950, 90)">
       <h3>3 Months</h3>
       <p>UGX 61,000</p>
     </div>
-    <div class="plan" onclick="openModal('Six Months', 120340, 180)">
+    <div class="plan" onclick="openModal('Six Months', 120437, 950, 180)">
       <h3>6 Months</h3>
       <p>UGX 125,000</p>
     </div>
-    <div class="plan" onclick="openModal('One Year', 236602, 365)">
+    <div class="plan" onclick="openModal('One Year', 236845, 1050, 365)">
       <h3>1 Year</h3>
       <p>UGX 245,000</p>
     </div>
@@ -200,7 +200,7 @@
   <!-- Modal -->
   <div class="modal" id="paymentModal">
     <div class="modal-content">
-      <div class="close" onclick="closeModal()">X</div>
+      <div style="color: red;" class="close" onclick="closeModal()">X</div>
       <h3 id="selectedPlan">Subscribe</h3>
       <p style="color: green;" id="desc">Plan description</p>
       <form action="{% url 'app:subscription' %}" method="POST">
@@ -221,9 +221,10 @@
   </div>
   
   <script>
-    function openModal(name, amount, opt) {
+    function openModal(name, amount, cha, opt) {
       document.getElementById("selectedPlan").innerText = `Subscribe to ${name}`;
-      document.getElementById("desc").innerText = ` ${opt} days at only UGX ${amount}`;
+      let total = Math.floor(amount + (0.03 * amount));
+      document.getElementById("desc").innerText = ` ${opt} days at only UGX ${total} + ${cha}`;
       document.getElementById("plan").value = opt;
       document.getElementById("pAmm").value = amount;
       document.getElementById("pAmm").style.display = "none";
