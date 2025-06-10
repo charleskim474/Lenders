@@ -1,5 +1,7 @@
 import uuid
 from datetime import datetime, timedelta
+from django.core.mail import send_mail
+from django.conf import settings
 import requests
 from Kimtech.models import *
 import calendar
@@ -265,8 +267,8 @@ class Notifications:
                 fail_silently=False,
             )
             print('mail sent')
-        except Exception:
-                print('error occured during emailing you')
+        except Exception as e:
+                print(e)
         
         
 class Payments:
@@ -274,7 +276,7 @@ class Payments:
         self.lender = lender
         
         
-    def pay(self, amm, tel, plan ):
+    def pay(self, amm, network, tel, plan ):
         obj = Notifications()
         #generating reference
         timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
@@ -295,10 +297,20 @@ class Payments:
         #_____________________________________
         
         url = 'https://www.easypay.co.ug/api/'
+        username = ''
+        password = ''
+        if network == 'Airtel':
+            username = '22f16ffa430705e1'
+            password = 'cb68419e05c52540'
+        else:
+            pass
+            #MTN credentials
+            #username = '22f16ffa430705e1'
+            #password = 'cb68419e05c52540'
         
         payload = {
-            "username": "22f16ffa430705e1",
-            "password": "cb68419e05c52540",
+            "username": username,
+            "password": password ,
             "action":"mmdeposit",
             "amount": amm,
             "currency":"UGX",
@@ -316,11 +328,11 @@ class Payments:
                     obj.send_email(f"Received UGX {data['details']['amount']} from :  {data['details']['phone']} Ref :  {data['details']['reference']} TXN ID : {data['details']['transactionId'] }")
                     return True
                 else:
-                    obj.send_email(f"Payment unsuccessfull (code: 200)")
+                    obj.send_email(f"Payment of {amm} from {tel} unsuccessfull (code: 200)")
                     return False
             else:
                 print('\n\nRequest failed',response.json(),'\n\n')
-                obj.send_email(f"Payment unsuccessfull")
+                obj.send_email(f"Payment of {amm} from {tel} unsuccessfull (code: != 200)")
                 return False
         except Exception as e:
             print('\n\n API request Exeption', e, '\n\n')

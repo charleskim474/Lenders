@@ -375,7 +375,7 @@ def subscription(request):
             print('\n\n===> Request from id:',lender.id, '\nPlan : ', plan, '\nAmount : ', pAmm, '\nNetwork : ', network,  '\nTel : ', phone)
             #API logic
             subscribe = Payments(lender)
-            confirm = subscribe.pay(pAmm, phone, plan)
+            confirm = subscribe.pay(pAmm, network, phone, plan)
             if confirm:
                 #this may get handled direct from the hook
                 obj = Update(lender)
