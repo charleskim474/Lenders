@@ -14,7 +14,7 @@ class Lender(models.Model):
     password = models.CharField(max_length = 100)
     location = models.CharField(max_length = 100)
     subscription = models.BooleanField(default = False)
-    expiry = models.DateField(default = date.today() + timedelta(days = 30)) #Automatically add 30days expiry from today
+    expiry = models.DateField(default = date.today() + timedelta(days = 14)) #Automatically add 30days expiry from today
     subscription_status = models.CharField(max_length = 10, default = 'Trial') #Trial/Working
     time_left = models.IntegerField(default = -1)
     
